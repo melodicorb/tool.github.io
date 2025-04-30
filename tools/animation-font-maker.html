@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create stunning animated text and fonts with customizable effects, colors, and styles using this easy-to-use animation font maker tool.">
+    <meta name="keywords" content="animation font maker, animated text generator, text animation tool, animated typography, CSS text animation, font animation creator, animated font effects">
+    <title>Animation Font Maker - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GIF.js for animated GIF creation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
+    <!-- HTML2Canvas for capturing DOM elements -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- RecordRTC for MP4 video recording -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.2/RecordRTC.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Animation Font Maker JS -->
+    <script src="../js/animation-font-maker.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Animation Font Maker - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/animation-font-maker.html",
+      "description": "Create stunning animated text and fonts with customizable effects, colors, and styles",
+      "applicationCategory": "DesignApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Animation Background Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full -z-10"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold text-indigo-600">MultiTool Hub</a>
+            <div class="space-x-4">
+                <a href="../index.html" class="text-gray-600 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-600 hover:text-indigo-600 transition">About</a>
+                <a href="../contact.html" class="text-gray-600 hover:text-indigo-600 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="w-20 h-20 mx-auto mb-4 relative">
+                <!-- 3D Icon will be rendered here by animation.js -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Animation Font Maker</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Create eye-catching animated text with customizable effects, colors, and styles for your websites, presentations, and social media.</p>
+        </div>
+
+        <!-- Animation Font Creator Section -->
+        <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Left Column: Controls -->
+                    <div class="space-y-6">
+                        <!-- Text Input -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Your Text</h3>
+                            <div class="flex flex-col space-y-3">
+                                <textarea id="animation-text" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter your text here..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Font Settings -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Font Settings</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="font-family" class="block text-sm font-medium text-gray-700 mb-1">Font Family</label>
+                                    <select id="font-family" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="Arial, sans-serif">Arial</option>
+                                        <option value="'Times New Roman', serif">Times New Roman</option>
+                                        <option value="'Courier New', monospace">Courier New</option>
+                                        <option value="Georgia, serif">Georgia</option>
+                                        <option value="Verdana, sans-serif">Verdana</option>
+                                        <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+                                        <option value="Impact, fantasy">Impact</option>
+                                        <option value="'Lucida Console', monospace">Lucida Console</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="font-size" class="block text-sm font-medium text-gray-700 mb-1">Font Size (px)</label>
+                                    <input type="number" id="font-size" min="10" max="200" value="48" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="font-color" class="block text-sm font-medium text-gray-700 mb-1">Font Color</label>
+                                    <input type="color" id="font-color" value="#FFFFFF" class="w-full h-10 px-1 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="font-weight" class="block text-sm font-medium text-gray-700 mb-1">Font Weight</label>
+                                    <select id="font-weight" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="normal">Normal</option>
+                                        <option value="bold" selected>Bold</option>
+                                        <option value="lighter">Lighter</option>
+                                        <option value="bolder">Bolder</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Animation Settings -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Animation Settings</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="animation-preset" class="block text-sm font-medium text-gray-700 mb-1">Animation Presets</label>
+                                    <select id="animation-preset" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <!-- Populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="animation-type" class="block text-sm font-medium text-gray-700 mb-1">Animation Type</label>
+                                    <select id="animation-type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="fade">Fade In</option>
+                                        <option value="bounce">Bounce</option>
+                                        <option value="slide">Slide In</option>
+                                        <option value="rotate">Rotate</option>
+                                        <option value="pulse">Pulse</option>
+                                        <option value="shake">Shake</option>
+                                        <option value="flip">Flip</option>
+                                        <option value="typewriter">Typewriter</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="animation-duration" class="block text-sm font-medium text-gray-700 mb-1">Duration (seconds)</label>
+                                    <input type="number" id="animation-duration" min="0.1" max="10" step="0.1" value="1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="animation-delay" class="block text-sm font-medium text-gray-700 mb-1">Delay (seconds)</label>
+                                    <input type="number" id="animation-delay" min="0" max="5" step="0.1" value="0" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="animation-iteration" class="block text-sm font-medium text-gray-700 mb-1">Iterations</label>
+                                    <select id="animation-iteration" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="1">1 time</option>
+                                        <option value="2">2 times</option>
+                                        <option value="3">3 times</option>
+                                        <option value="infinite">Infinite</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="real-time-preview" class="flex items-center text-sm font-medium text-gray-700 mb-1">
+                                        <input type="checkbox" id="real-time-preview" class="mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                        Real-time Preview
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Background Settings -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Background Settings</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="background-color" class="block text-sm font-medium text-gray-700 mb-1">Background Color</label>
+                                    <input type="color" id="background-color" value="#000000" class="w-full h-10 px-1 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="background-opacity" class="block text-sm font-medium text-gray-700 mb-1">Background Opacity (%)</label>
+                                    <input type="range" id="background-opacity" min="0" max="100" value="50" class="w-full h-10 px-1 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Effects Settings -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Special Effects</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="text-shadow" class="block text-sm font-medium text-gray-700 mb-1">Text Shadow</label>
+                                    <select id="text-shadow" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="none">None</option>
+                                        <option value="light">Light</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="heavy">Heavy</option>
+                                        <option value="neon">Neon Glow</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="text-effect" class="block text-sm font-medium text-gray-700 mb-1">Text Effect</label>
+                                    <select id="text-effect" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="none">None</option>
+                                        <option value="outline">Outline</option>
+                                        <option value="gradient">Gradient</option>
+                                        <option value="emboss">Emboss</option>
+                                        <option value="fire">Fire</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Export Options -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Export Options</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="export-format" class="block text-sm font-medium text-gray-700 mb-1">Export Format</label>
+                                    <select id="export-format" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="png">PNG Image</option>
+                                        <option value="gif">Animated GIF</option>
+                                        <option value="mp4">MP4 Video</option>
+                                        <option value="css">CSS Code</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Controls -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Animation Sequence</h3>
+                            <div id="timeline-container" class="bg-gray-50 border border-gray-200 rounded-md p-3 mb-3">
+                                <!-- Timeline will be populated by JavaScript -->
+                            </div>
+                            <button id="add-sequence" class="w-full bg-indigo-100 text-indigo-700 py-2 px-4 rounded-md hover:bg-indigo-200 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                                </svg>
+                                Add Current Settings as Sequence
+                            </button>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex space-x-4">
+                            <button id="preview-animation" class="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Preview Animation</button>
+                            <button id="reset-animation" class="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">Reset</button>
+                            <button id="download-animation" class="flex-1 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Download</button>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Preview -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-800 mb-3">Preview</h3>
+                        <div id="animation-preview" class="bg-gray-800 rounded-md overflow-hidden aspect-video flex items-center justify-center relative">
+                            <div class="absolute inset-0 flex items-center justify-center text-gray-500">
+                                <p>Your animated text will appear here</p>
+                            </div>
+                        </div>
+
+                        <!-- Saved Animations -->
+                        <div class="mt-6">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-lg font-medium text-gray-800">Saved Animations</h3>
+                                <button id="clear-saved" class="text-sm text-red-600 hover:text-red-800">Clear All</button>
+                            </div>
+                            <div id="saved-animations" class="grid grid-cols-2 gap-4 mt-2">
+                                <!-- Saved animations will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">How to Use the Animation Font Maker</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-800">1. Enter Your Text</h3>
+                        <p class="text-gray-600">Type the text you want to animate in the text input field.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">2. Customize Font Settings</h3>
+                        <p class="text-gray-600">Choose the font family, size, color, and weight that best fits your design.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">3. Select Animation Type</h3>
+                        <p class="text-gray-600">Pick from various animation styles and adjust duration, delay, and iterations.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">4. Add Special Effects</h3>
+                        <p class="text-gray-600">Enhance your text with shadows, outlines, gradients, and other effects.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">5. Preview and Download</h3>
+                        <p class="text-gray-600">Preview your animation and download it as a GIF or video file for use in your projects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Frequently Asked Questions</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-800">What file formats can I download my animations in?</h3>
+                        <p class="text-gray-600">You can download your animated text as GIF, MP4, or as CSS code to embed directly in your website.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Can I use these animations in commercial projects?</h3>
+                        <p class="text-gray-600">Yes, all animations created with our tool are free to use in both personal and commercial projects.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">How can I add my animated text to a website?</h3>
+                        <p class="text-gray-600">You can either download the animation as a GIF/video and embed it, or use the generated CSS code for a more optimized implementation.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Is there a limit to how many animations I can create?</h3>
+                        <p class="text-gray-600">No, you can create as many animations as you want. Your most recent animations will be saved in your browser for easy access.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-xl font-bold">MultiTool Hub</h2>
+                    <p class="text-gray-400">Your one-stop destination for online tools</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../index.html" class="hover:text-indigo-400 transition">Home</a>
+                    <a href="../about.html" class="hover:text-indigo-400 transition">About</a>
+                    <a href="../privacy.html" class="hover:text-indigo-400 transition">Privacy Policy</a>
+                    <a href="../contact.html" class="hover:text-indigo-400 transition">Contact</a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-400">
+                <p>&copy; <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+                <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ad Container (for Google AdSense) -->
+    <div class="ad-container my-8 text-center">
+        <!-- AdSense code would go here -->
+        <div class="bg-gray-200 p-4 rounded-md mx-auto max-w-3xl">
+            <p class="text-gray-500">Advertisement Space</p>
+        </div>
+    </div>
+</body>
+</html>

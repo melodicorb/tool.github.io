@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your exact age in years, months, days, hours, and minutes with this easy-to-use age calculator tool.">
+    <meta name="keywords" content="age calculator, birthday calculator, age in years, months, days calculator, exact age calculator, date of birth calculator">
+    <title>Age Calculator - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Age Calculator JS -->
+    <script src="../js/age-calculator.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Age Calculator - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/age-calculator.html",
+      "description": "Calculate your exact age in years, months, days, hours, and minutes with this easy-to-use age calculator tool.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white px-4 py-3 shadow-inner">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon bg-blue-100 text-blue-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Age Calculator</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Calculate your exact age in years, months, days, hours, and minutes based on your date of birth.</p>
+        </div>
+
+        <!-- Calculator Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <div class="mb-6">
+                    <label for="birth-date" class="block text-gray-700 font-medium mb-2">Date of Birth</label>
+                    <input type="date" id="birth-date" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                
+                <div class="mb-6">
+                    <label for="calculation-time" class="block text-gray-700 font-medium mb-2">Calculate Age As Of</label>
+                    <div class="flex space-x-4">
+                        <div class="flex-1">
+                            <select id="calculation-option" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="current">Current Date & Time</option>
+                                <option value="custom">Custom Date & Time</option>
+                            </select>
+                        </div>
+                        <div class="flex-1" id="custom-date-container" style="display: none;">
+                            <input type="date" id="custom-date" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="calculate-age" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Calculate Age
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10" style="display: none;">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Your Age Results</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-gray-600 mb-1">Date of Birth</p>
+                        <p id="result-dob" class="text-lg font-medium">-</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-gray-600 mb-1">Age as of</p>
+                        <p id="result-as-of" class="text-lg font-medium">-</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                    <div class="bg-indigo-50 p-4 rounded-lg text-center">
+                        <p class="text-indigo-600 font-bold text-2xl" id="result-years">-</p>
+                        <p class="text-gray-600">Years</p>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-lg text-center">
+                        <p class="text-indigo-600 font-bold text-2xl" id="result-months">-</p>
+                        <p class="text-gray-600">Months</p>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-lg text-center">
+                        <p class="text-indigo-600 font-bold text-2xl" id="result-days">-</p>
+                        <p class="text-gray-600">Days</p>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-lg text-center">
+                        <p class="text-indigo-600 font-bold text-2xl" id="result-hours">-</p>
+                        <p class="text-gray-600">Hours</p>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-lg text-center">
+                        <p class="text-indigo-600 font-bold text-2xl" id="result-minutes">-</p>
+                        <p class="text-gray-600">Minutes</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                    <p class="text-gray-600 mb-1">Total Age</p>
+                    <p id="result-total-days" class="text-lg font-medium">- days (- hours)</p>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-gray-600 mb-1">Next Birthday</p>
+                    <p id="result-next-birthday" class="text-lg font-medium">- days from now</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800">Calculation History</h2>
+                    <button id="clear-history" class="text-sm text-red-600 hover:text-red-800 transition">Clear History</button>
+                </div>
+                <div id="history-list" class="divide-y divide-gray-200">
+                    <p class="text-gray-500 text-center italic">Your calculation history will appear here.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Guide Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">How to Use the Age Calculator</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-800">1. Enter Your Date of Birth</h3>
+                        <p class="text-gray-600">Select your birth date using the date picker.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">2. Choose Calculation Method</h3>
+                        <p class="text-gray-600">Select whether to calculate your age as of the current date and time or a custom date.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">3. View Your Results</h3>
+                        <p class="text-gray-600">After clicking "Calculate Age", you'll see your age broken down into years, months, days, hours, and minutes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Frequently Asked Questions</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-800">How is my age calculated?</h3>
+                        <p class="text-gray-600">Our calculator uses precise date and time calculations to determine your exact age in years, months, days, hours, and minutes.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Why might my age calculation differ from other calculators?</h3>
+                        <p class="text-gray-600">Different calculators may use different methods for handling leap years, months with varying days, and time zones.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Is my birth date information stored?</h3>
+                        <p class="text-gray-600">Your calculation history is stored locally on your device only. No personal information is sent to our servers.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">How accurate is the next birthday countdown?</h3>
+                        <p class="text-gray-600">The countdown is accurate to the day and accounts for leap years when calculating the days until your next birthday.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-2xl font-bold flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-400 mt-2">Your All-in-One Tool Platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="../about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-300 hover:text-white transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-300 hover:text-white transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>© <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- AdSense Placeholder -->
+    <div class="fixed bottom-0 left-0 w-full bg-white p-2 text-center text-sm text-gray-500 border-t border-gray-200">
+        Advertisement Placeholder - Optimized for Google AdSense
+    </div>
+</body>
+</html>

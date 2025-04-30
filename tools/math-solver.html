@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Solve various math problems with this free online tool. Handles algebraic equations, calculus problems, geometric calculations, and more.">
+    <meta name="keywords" content="math solver, equation solver, algebra calculator, calculus solver, geometry calculator, math problem solver, online math tool">
+    <title>Math Solver - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Math Solver JS -->
+    <script src="../js/math-solver.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Math Solver - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/math-solver.html",
+      "description": "Solve various math problems with this free online tool. Handles algebraic equations, calculus problems, geometric calculations, and more.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Animation Background -->
+    <div class="animation-wrapper fixed top-0 left-0 w-full h-full -z-10">
+        <canvas id="animation-canvas" class="w-full h-full block"></canvas>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="bg-white/80 backdrop-blur-md shadow-md py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                    <span>MultiTool Hub</span>
+                </a>
+                <nav>
+                    <ul class="flex space-x-6">
+                        <li><a href="../index.html" class="text-gray-600 hover:text-indigo-600 transition">Home</a></li>
+                        <li><a href="../about.html" class="text-gray-600 hover:text-indigo-600 transition">About</a></li>
+                        <li><a href="../contact.html" class="text-gray-600 hover:text-indigo-600 transition">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-12">
+            <!-- 3D Tool Icon -->
+            <div class="w-24 h-24 mx-auto mb-4 relative">
+                <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" fill="#6366F1" stroke="#4F46E5" stroke-width="1.5"/>
+                    <path d="M8 9H10" stroke="#EDE9FE" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M14 9H16" stroke="#EDE9FE" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M8 15H10" stroke="#EDE9FE" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M14 15H16" stroke="#EDE9FE" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M12 7V17" stroke="#EDE9FE" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M7 12H17" stroke="#EDE9FE" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Math Solver Tool</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Solve various mathematical problems with ease. From basic arithmetic to complex calculus, our tool handles it all.</p>
+        </div>
+
+        <!-- Math Solver Tool -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Left Column: Input Controls -->
+                <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Enter Your Problem</h2>
+                    
+                    <!-- Problem Type Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Problem Type</label>
+                        <select id="problem-type" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="algebra">Algebra</option>
+                            <option value="calculus">Calculus</option>
+                            <option value="geometry">Geometry</option>
+                            <option value="statistics">Statistics</option>
+                            <option value="arithmetic">Basic Arithmetic</option>
+                        </select>
+                    </div>
+
+                    <!-- Problem Input -->
+                    <div>
+                        <label for="problem-input" class="block text-sm font-medium text-gray-700 mb-1">Problem</label>
+                        <textarea id="problem-input" rows="4" placeholder="Enter your math problem here..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                    </div>
+
+                    <!-- Additional Options -->
+                    <div id="additional-options" class="space-y-3">
+                        <!-- These will be dynamically populated based on problem type -->
+                    </div>
+
+                    <!-- Solve Button -->
+                    <div>
+                        <button id="solve-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                            Solve Problem
+                        </button>
+                    </div>
+
+                    <!-- Examples -->
+                    <div class="pt-4 border-t border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Examples</h3>
+                        <div id="examples" class="space-y-2 text-sm">
+                            <p class="cursor-pointer text-indigo-600 hover:text-indigo-800">Solve: 2x + 3 = 7</p>
+                            <p class="cursor-pointer text-indigo-600 hover:text-indigo-800">Differentiate: x² + 3x + 2</p>
+                            <p class="cursor-pointer text-indigo-600 hover:text-indigo-800">Find area of triangle: base=4, height=5</p>
+                            <p class="cursor-pointer text-indigo-600 hover:text-indigo-800">Calculate mean: 4, 7, 9, 12, 15</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Solution Display -->
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Solution</h2>
+                    
+                    <!-- Solution Display -->
+                    <div id="solution-display" class="border border-gray-200 rounded-md p-4 min-h-[300px] bg-gray-50">
+                        <div class="text-center text-gray-500 py-12">
+                            Your solution will appear here
+                        </div>
+                    </div>
+
+                    <!-- Solution Actions -->
+                    <div class="mt-4 flex space-x-3">
+                        <button id="copy-btn" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 disabled:opacity-50" disabled>
+                            Copy Solution
+                        </button>
+                        <button id="steps-btn" class="flex-1 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-medium py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 disabled:opacity-50" disabled>
+                            Show Steps
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steps Modal (hidden by default) -->
+            <div id="steps-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Solution Steps</h3>
+                        <button id="close-steps-btn" class="text-gray-500 hover:text-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="steps-content" class="space-y-4">
+                        <!-- Steps will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Guide -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">How to Use the Math Solver Tool</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">1. Select Problem Type</h3>
+                    <p class="text-gray-600">Choose the category of math problem you want to solve from the dropdown menu.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">2. Enter Your Problem</h3>
+                    <p class="text-gray-600">Type your math problem in the input field. Make sure to use proper syntax for best results.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">3. Set Additional Options</h3>
+                    <p class="text-gray-600">Some problem types have additional options that will appear based on your selection.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">4. Get Your Solution</h3>
+                    <p class="text-gray-600">Click the "Solve Problem" button to get your answer. You can view step-by-step solutions for most problems.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">What types of math problems can this tool solve?</h3>
+                    <p class="text-gray-600">Our tool can solve a wide range of problems including algebraic equations, calculus problems (derivatives, integrals), geometry calculations, statistical analysis, and basic arithmetic.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">How do I input complex equations?</h3>
+                    <p class="text-gray-600">For complex equations, use standard mathematical notation. For exponents use ^ (e.g., x^2 for x²), for fractions use / (e.g., 1/2), and for square roots use sqrt() (e.g., sqrt(16)).</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Can I see the steps to solve the problem?</h3>
+                    <p class="text-gray-600">Yes! After solving a problem, click the "Show Steps" button to see a detailed step-by-step solution process.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Is there a limit to the complexity of problems?</h3>
+                    <p class="text-gray-600">While our tool can handle most standard math problems, extremely complex or specialized problems might have limitations. For best results, try to break down complex problems into smaller parts.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+                </div>
+                <div>
+                    <ul class="flex space-x-6">
+                        <li><a href="../about.html" class="text-gray-600 hover:text-indigo-600 transition">About</a></li>
+                        <li><a href="../privacy.html" class="text-gray-600 hover:text-indigo-600 transition">Privacy Policy</a></li>
+                        <li><a href="../contact.html" class="text-gray-600 hover:text-indigo-600 transition">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Current Year Script -->
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

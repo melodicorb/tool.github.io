@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Relax and focus with our free online calm sounds player. Choose from nature sounds, ambient noise, and meditation tracks to reduce stress and improve concentration.">
+    <meta name="keywords" content="calm sounds, relaxation sounds, ambient noise, meditation sounds, focus music, nature sounds, white noise, sleep sounds, concentration audio">
+    <title>Calm Sounds - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Calm Sounds JS -->
+    <script src="../js/calm-sounds.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Calm Sounds - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/calm-sounds.html",
+      "description": "Relax and focus with our free online calm sounds player. Choose from nature sounds, ambient noise, and meditation tracks to reduce stress and improve concentration.",
+      "applicationCategory": "LifestyleApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Animation Background Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full -z-10"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="../index.html" class="text-xl font-bold text-indigo-600">MultiTool Hub</a>
+            <div class="space-x-4">
+                <a href="../index.html" class="text-gray-600 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-600 hover:text-indigo-600 transition">About</a>
+                <a href="../contact.html" class="text-gray-600 hover:text-indigo-600 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="w-20 h-20 mx-auto mb-4 relative">
+                <!-- 3D Icon will be rendered here by animation.js -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Calm Sounds</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Relax, focus, and unwind with our collection of soothing sounds and ambient noise. Perfect for meditation, work, study, or sleep.</p>
+        </div>
+
+        <!-- Calm Sounds Player Section -->
+        <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Left Column: Sound Categories and Controls -->
+                    <div class="space-y-6">
+                        <!-- Sound Categories -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Sound Categories</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                <button id="nature-sounds" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-800 py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <span class="block text-sm">Nature</span>
+                                </button>
+                                <button id="ambient-sounds" class="bg-green-100 hover:bg-green-200 text-green-800 py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <span class="block text-sm">Ambient</span>
+                                </button>
+                                <button id="meditation-sounds" class="bg-purple-100 hover:bg-purple-200 text-purple-800 py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                    <span class="block text-sm">Meditation</span>
+                                </button>
+                                <button id="water-sounds" class="bg-blue-100 hover:bg-blue-200 text-blue-800 py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <span class="block text-sm">Water</span>
+                                </button>
+                                <button id="white-noise" class="bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-gray-500">
+                                    <span class="block text-sm">White Noise</span>
+                                </button>
+                                <button id="sleep-sounds" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                                    <span class="block text-sm">Sleep</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sound Selection -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Available Sounds</h3>
+                            <div id="sound-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto p-2">
+                                <!-- Sound items will be populated here by JS -->
+                                <div class="sound-item p-3 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 flex-shrink-0 mr-3 text-indigo-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-medium">Forest Birds</h4>
+                                            <p class="text-xs text-gray-500">Nature</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sound-item p-3 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 flex-shrink-0 mr-3 text-blue-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-medium">Ocean Waves</h4>
+                                            <p class="text-xs text-gray-500">Water</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Player Controls -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Player Controls</h3>
+                            <div class="space-y-4">
+                                <!-- Currently Playing -->
+                                <div class="bg-gray-100 p-4 rounded-md">
+                                    <p class="text-sm text-gray-500 mb-1">Now Playing:</p>
+                                    <p id="now-playing" class="font-medium">Forest Birds</p>
+                                </div>
+                                
+                                <!-- Volume Control -->
+                                <div>
+                                    <label for="volume-control" class="block text-sm font-medium text-gray-700 mb-1">Volume</label>
+                                    <input type="range" id="volume-control" min="0" max="100" value="70" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                </div>
+                                
+                                <!-- Playback Controls -->
+                                <div class="flex justify-center space-x-6">
+                                    <button id="play-btn" class="w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </button>
+                                    <button id="pause-btn" class="w-12 h-12 flex items-center justify-center bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </button>
+                                    <button id="stop-btn" class="w-12 h-12 flex items-center justify-center bg-red-100 text-red-700 rounded-full hover:bg-red-200 transition focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10h6v6H9z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timer Settings -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Timer</h3>
+                            <div class="flex items-center space-x-4">
+                                <select id="timer-duration" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="0">No Timer</option>
+                                    <option value="5">5 minutes</option>
+                                    <option value="10">10 minutes</option>
+                                    <option value="15">15 minutes</option>
+                                    <option value="30">30 minutes</option>
+                                    <option value="60">1 hour</option>
+                                    <option value="120">2 hours</option>
+                                </select>
+                                <button id="start-timer" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Start</button>
+                            </div>
+                            <div id="timer-display" class="mt-3 text-center text-xl font-semibold hidden">00:00</div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Mixer and Visualization -->
+                    <div>
+                        <!-- Sound Visualization -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Visualization</h3>
+                            <div id="visualization-container" class="bg-gray-800 rounded-md overflow-hidden aspect-video flex items-center justify-center relative">
+                                <canvas id="sound-visualization" class="w-full h-full"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Sound Mixer -->
+                        <div class="mb-6">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-lg font-medium text-gray-800">Sound Mixer</h3>
+                                <button id="clear-mixer" class="text-sm text-red-600 hover:text-red-800">Clear All</button>
+                            </div>
+                            <div id="sound-mixer" class="bg-gray-100 p-4 rounded-md">
+                                <p class="text-sm text-gray-500 mb-3">Mix multiple sounds together:</p>
+                                <div id="active-sounds" class="space-y-3">
+                                    <!-- Active sounds with individual controls will be added here by JS -->
+                                    <div class="active-sound-item flex items-center space-x-3">
+                                        <div class="w-6 h-6 flex-shrink-0 text-indigo-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.728-2.728" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm font-medium">Forest Birds</span>
+                                        <input type="range" class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" min="0" max="100" value="70">
+                                        <button class="text-red-500 hover:text-red-700">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Presets -->
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Sound Presets</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button class="sound-preset bg-indigo-50 hover:bg-indigo-100 text-indigo-800 py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <span class="block text-sm font-medium">Peaceful Forest</span>
+                                    <span class="block text-xs text-gray-500">Birds + Light Rain</span>
+                                </button>
+                                <button class="sound-preset bg-blue-50 hover:bg-blue-100 text-blue-800 py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <span class="block text-sm font-medium">Ocean Retreat</span>
+                                    <span class="block text-xs text-gray-500">Waves + Seagulls</span>
+                                </button>
+                                <button class="sound-preset bg-green-50 hover:bg-green-100 text-green-800 py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <span class="block text-sm font-medium">Rainy Cafe</span>
+                                    <span class="block text-xs text-gray-500">Rain + Cafe Ambience</span>
+                                </button>
+                                <button class="sound-preset bg-purple-50 hover:bg-purple-100 text-purple-800 py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                    <span class="block text-sm font-medium">Meditation Space</span>
+                                    <span class="block text-xs text-gray-500">Singing Bowls + Wind</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">How to Use Calm Sounds</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-800">1. Choose Your Sound Category</h3>
+                        <p class="text-gray-600">Select from nature sounds, ambient noise, meditation tracks, water sounds, white noise, or sleep sounds.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">2. Select Individual Sounds</h3>
+                        <p class="text-gray-600">Browse through the available sounds in each category and click on one to play it.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">3. Adjust Volume and Settings</h3>
+                        <p class="text-gray-600">Use the volume slider to set your preferred sound level. You can also set a timer for automatic shutdown.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">4. Mix Multiple Sounds</h3>
+                        <p class="text-gray-600">Create your own custom soundscape by mixing multiple sounds together with individual volume controls.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">5. Save and Use Presets</h3>
+                        <p class="text-gray-600">Save your favorite sound combinations as presets for quick access in future sessions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Frequently Asked Questions</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-800">How can calm sounds help with focus and productivity?</h3>
+                        <p class="text-gray-600">Calm sounds can mask distracting noises, create a consistent audio environment, and help your brain enter a flow state, all of which contribute to improved focus and productivity.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Can I use these sounds to help with sleep?</h3>
+                        <p class="text-gray-600">Yes, many of our sounds are specifically designed to promote relaxation and sleep. The timer feature allows you to set sounds to automatically stop after you've fallen asleep.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Will the sounds continue playing if I close my browser?</h3>
+                        <p class="text-gray-600">No, the sounds will stop if you close the browser tab or window. For continuous playback, keep the tab open (you can minimize the browser).</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Can I download these sounds for offline use?</h3>
+                        <p class="text-gray-600">Currently, our sounds are available for streaming only. We may add a download feature in future updates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Benefits of Calm Sounds</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-md bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800">Stress Reduction</h3>
+                            <p class="text-gray-600">Natural and ambient sounds can lower cortisol levels and reduce stress responses in the body.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-md bg-green-100 flex items-center justify-center text-green-600 mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800">Improved Focus</h3>
+                            <p class="text-gray-600">Consistent background sounds can help mask distractions and improve concentration during work or study.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-md bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800">Better Sleep</h3>
+                            <p class="text-gray-600">Calming sounds can help you fall asleep faster and improve overall sleep quality by creating a peaceful environment.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-md bg-purple-100 flex items-center justify-center text-purple-600 mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800">Mood Enhancement</h3>
+                            <p class="text-gray-600">Nature sounds and calming music can boost your mood and create a more positive emotional state.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shorten long URLs into compact, easy-to-share links with our free link shortener tool. Track clicks and manage your shortened links.">
+    <meta name="keywords" content="link shortener, URL shortener, shorten links, short URL, link tracking, URL management, free link shortener">
+    <title>Link Shortener - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Link Shortener JS -->
+    <script src="../js/link-shortener.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Link Shortener - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/link-shortener.html",
+      "description": "Shorten long URLs into compact, easy-to-share links with our free link shortener tool. Track clicks and manage your shortened links.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white py-2 px-4 hidden">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon bg-blue-100 text-blue-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Link Shortener</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Transform long URLs into short, easy-to-share links with our free link shortener tool.</p>
+        </div>
+
+        <!-- Ad Container Top -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+
+        <!-- Link Shortener Container -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <!-- URL Input Section -->
+            <div class="mb-6">
+                <label for="long-url" class="block text-gray-700 font-medium mb-2">Enter Long URL</label>
+                <div class="flex">
+                    <input type="url" id="long-url" placeholder="https://example.com/very/long/url/that/needs/shortening" class="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="shorten-button" class="bg-blue-600 text-white px-6 py-2 rounded-r-md hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Shorten
+                    </button>
+                </div>
+                <p class="text-sm text-gray-500 mt-1">Enter the URL you want to shorten (including http:// or https://)</p>
+            </div>
+
+            <!-- Options Section -->
+            <div class="mb-6 p-4 bg-gray-50 rounded-md">
+                <h3 class="font-medium text-gray-800 mb-3">Options</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="custom-alias" class="block text-gray-700 text-sm mb-1">Custom Alias (Optional)</label>
+                        <input type="text" id="custom-alias" placeholder="my-custom-link" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm">
+                    </div>
+                    <div>
+                        <label for="expiry-time" class="block text-gray-700 text-sm mb-1">Link Expiry</label>
+                        <select id="expiry-time" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm">
+                            <option value="never">Never</option>
+                            <option value="1">1 Day</option>
+                            <option value="7">7 Days</option>
+                            <option value="30">30 Days</option>
+                            <option value="90">90 Days</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result Section (Hidden by default) -->
+            <div id="result-section" class="mb-6 p-5 bg-green-50 rounded-md border border-green-200 hidden">
+                <h3 class="font-medium text-gray-800 mb-3">Your Shortened Link</h3>
+                <div class="flex mb-3">
+                    <input type="text" id="short-url" readonly class="flex-1 px-4 py-2 bg-white border border-gray-300 rounded-l-md focus:outline-none">
+                    <button id="copy-button" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-r-md hover:bg-gray-300 transition focus:outline-none">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex space-x-2">
+                    <a href="#" id="preview-link" target="_blank" class="text-blue-600 hover:text-blue-800 transition text-sm flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        Preview
+                    </a>
+                    <button id="qr-button" class="text-blue-600 hover:text-blue-800 transition text-sm flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+                        </svg>
+                        Generate QR Code
+                    </button>
+                </div>
+            </div>
+
+            <!-- QR Code Section (Hidden by default) -->
+            <div id="qr-section" class="mb-6 p-5 bg-gray-50 rounded-md border border-gray-200 hidden">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-medium text-gray-800">QR Code</h3>
+                    <button id="close-qr" class="text-gray-500 hover:text-gray-700 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div id="qr-code" class="bg-white p-4 rounded-md mb-3"></div>
+                    <button id="download-qr" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Download QR Code
+                    </button>
+                </div>
+            </div>
+
+            <!-- Link History Section -->
+            <div>
+                <h3 class="font-medium text-gray-800 mb-3">Your Shortened Links</h3>
+                <div id="links-table" class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Original URL</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Short Link</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expires</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Clicks</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="links-data" class="bg-white divide-y divide-gray-200">
+                            <!-- Links will be populated here via JavaScript -->
+                            <tr id="no-links-message">
+                                <td colspan="6" class="px-6 py-4 text-center text-gray-500 italic">No shortened links yet. Create your first one above!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Description -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">About Link Shortener</h2>
+            <p class="mb-4">Our Link Shortener tool allows you to transform long, unwieldy URLs into short, easy-to-share links. Whether you're sharing links on social media, in emails, or in print materials, our tool makes your links more manageable and professional.</p>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Features</h3>
+            <ul class="list-disc pl-6 mb-4 space-y-2">
+                <li>Create short, memorable links from long URLs</li>
+                <li>Customize your link with a custom alias</li>
+                <li>Set expiration dates for temporary links</li>
+                <li>Track the number of clicks on your shortened links</li>
+                <li>Generate QR codes for your shortened links</li>
+                <li>View and manage all your shortened links in one place</li>
+                <li>Copy links to clipboard with one click</li>
+            </ul>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">How to Use</h3>
+            <ol class="list-decimal pl-6 mb-4 space-y-2">
+                <li>Enter the long URL you want to shorten in the input field</li>
+                <li>Optionally, customize your link with a custom alias</li>
+                <li>Select an expiration time for your link (or choose "Never")</li>
+                <li>Click the "Shorten" button to generate your short link</li>
+                <li>Copy the shortened link to share it, or generate a QR code</li>
+                <li>Track clicks and manage your links in the history section</li>
+            </ol>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Frequently Asked Questions</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold">Are the shortened links permanent?</h4>
+                    <p>By default, links don't expire unless you set an expiration date. You can choose to have links expire after 1 day, 7 days, 30 days, or 90 days.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Can I customize my shortened links?</h4>
+                    <p>Yes, you can create custom aliases for your links to make them more memorable or branded.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Is there a limit to how many links I can create?</h4>
+                    <p>There is no limit to the number of links you can create with our free tool.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Can I track how many people click my links?</h4>
+                    <p>Yes, our tool automatically tracks the number of clicks on each of your shortened links.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Are the shortened links secure?</h4>
+                    <p>Yes, our link shortener maintains the security of the original link. If your original URL uses HTTPS, the shortened link will also direct to the secure site.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Container Bottom -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-2xl font-bold text-white flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-400 mt-2">Your one-stop destination for free online tools</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="../about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-300 hover:text-white transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-300 hover:text-white transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>© <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+                <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

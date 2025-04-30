@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create professional YouTube thumbnails with customizable templates, text overlays, and image uploads using this easy-to-use thumbnail maker tool.">
+    <meta name="keywords" content="youtube thumbnail maker, thumbnail creator, youtube thumbnail generator, custom thumbnail, video thumbnail maker, online thumbnail tool">
+    <title>YouTube Thumbnail Maker - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- YouTube Thumbnail Maker JS -->
+    <script src="../js/youtube-thumbnail-maker.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "YouTube Thumbnail Maker - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/youtube-thumbnail-maker.html",
+      "description": "Create professional YouTube thumbnails with customizable templates, text overlays, and image uploads using this easy-to-use thumbnail maker tool.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white px-4 py-3 shadow-inner">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon bg-red-100 text-red-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">YouTube Thumbnail Maker</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Create eye-catching YouTube thumbnails with customizable templates, text overlays, and image uploads.</p>
+        </div>
+
+        <!-- Thumbnail Creator Section -->
+        <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Left Column: Controls -->
+                    <div class="space-y-6">
+                        <!-- Image Upload -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Background Image</h3>
+                            <div class="flex flex-col space-y-3">
+                                <div class="flex space-x-4">
+                                    <button id="upload-image" class="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                        Upload Image
+                                    </button>
+                                    <button id="use-template" class="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                        Use Template
+                                    </button>
+                                </div>
+                                <input type="file" id="image-input" accept="image/*" class="hidden">
+                            </div>
+                        </div>
+
+                        <!-- Template Selection (initially hidden) -->
+                        <div id="template-selection" class="mb-6 hidden">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Choose Template</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="template-item cursor-pointer border-2 border-transparent hover:border-indigo-500 rounded-md overflow-hidden" data-template="gaming">
+                                    <img src="../assets/templates/gaming-thumbnail.jpg" alt="Gaming Template" class="w-full h-auto">
+                                </div>
+                                <div class="template-item cursor-pointer border-2 border-transparent hover:border-indigo-500 rounded-md overflow-hidden" data-template="vlog">
+                                    <img src="../assets/templates/vlog-thumbnail.jpg" alt="Vlog Template" class="w-full h-auto">
+                                </div>
+                                <div class="template-item cursor-pointer border-2 border-transparent hover:border-indigo-500 rounded-md overflow-hidden" data-template="tutorial">
+                                    <img src="../assets/templates/tutorial-thumbnail.jpg" alt="Tutorial Template" class="w-full h-auto">
+                                </div>
+                                <div class="template-item cursor-pointer border-2 border-transparent hover:border-indigo-500 rounded-md overflow-hidden" data-template="review">
+                                    <img src="../assets/templates/review-thumbnail.jpg" alt="Review Template" class="w-full h-auto">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Overlay -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Text Overlay</h3>
+                            <div class="space-y-3">
+                                <div>
+                                    <label for="headline-text" class="block text-gray-700 font-medium mb-1">Headline</label>
+                                    <input type="text" id="headline-text" placeholder="Add a catchy headline" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="subtitle-text" class="block text-gray-700 font-medium mb-1">Subtitle</label>
+                                    <input type="text" id="subtitle-text" placeholder="Add a subtitle (optional)" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Styling -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Text Styling</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label for="headline-font" class="block text-gray-700 font-medium mb-1">Headline Font</label>
+                                    <select id="headline-font" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="Arial, sans-serif">Arial</option>
+                                        <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+                                        <option value="'Montserrat', sans-serif">Montserrat</option>
+                                        <option value="'Oswald', sans-serif">Oswald</option>
+                                        <option value="'Roboto', sans-serif">Roboto</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="headline-color" class="block text-gray-700 font-medium mb-1">Headline Color</label>
+                                    <input type="color" id="headline-color" value="#FFFFFF" class="w-full h-10 border border-gray-300 rounded-md">
+                                </div>
+                                <div>
+                                    <label for="subtitle-font" class="block text-gray-700 font-medium mb-1">Subtitle Font</label>
+                                    <select id="subtitle-font" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="Arial, sans-serif">Arial</option>
+                                        <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+                                        <option value="'Montserrat', sans-serif">Montserrat</option>
+                                        <option value="'Oswald', sans-serif">Oswald</option>
+                                        <option value="'Roboto', sans-serif">Roboto</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="subtitle-color" class="block text-gray-700 font-medium mb-1">Subtitle Color</label>
+                                    <input type="color" id="subtitle-color" value="#FFFFFF" class="w-full h-10 border border-gray-300 rounded-md">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Effects -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-medium text-gray-800 mb-3">Effects</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label for="overlay-color" class="block text-gray-700 font-medium mb-1">Overlay Color</label>
+                                    <input type="color" id="overlay-color" value="#000000" class="w-full h-10 border border-gray-300 rounded-md">
+                                </div>
+                                <div>
+                                    <label for="overlay-opacity" class="block text-gray-700 font-medium mb-1">Overlay Opacity</label>
+                                    <input type="range" id="overlay-opacity" min="0" max="100" value="30" class="w-full h-10">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex space-x-4">
+                            <button id="reset-thumbnail" class="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                Reset
+                            </button>
+                            <button id="download-thumbnail" class="flex-1 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Preview -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-800 mb-3">Thumbnail Preview</h3>
+                        <div class="bg-gray-100 border border-gray-300 rounded-md overflow-hidden">
+                            <div id="thumbnail-preview" class="relative w-full" style="height: 0; padding-bottom: 56.25%;">
+                                <!-- Preview content will be inserted here by JavaScript -->
+                                <div class="absolute inset-0 flex items-center justify-center text-gray-500">
+                                    <p>Upload an image or select a template to start</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">Preview shows how your thumbnail will look on YouTube (1280×720 pixels)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Saved Thumbnails Section -->
+        <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800">Saved Thumbnails</h2>
+                    <button id="clear-saved" class="text-sm text-red-600 hover:text-red-800 transition">Clear All</button>
+                </div>
+                <div id="saved-thumbnails" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <p class="text-gray-500 text-center italic col-span-full">Your saved thumbnails will appear here.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Guide Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">How to Use the YouTube Thumbnail Maker</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-800">1. Choose Your Background</h3>
+                        <p class="text-gray-600">Upload your own image or select from our pre-designed templates.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">2. Add Text Overlay</h3>
+                        <p class="text-gray-600">Create a catchy headline and subtitle to grab viewers' attention.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">3. Customize Styling</h3>
+                        <p class="text-gray-600">Choose fonts, colors, and effects to make your thumbnail stand out.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">4. Download Your Thumbnail</h3>
+                        <p class="text-gray-600">Save your creation in high-quality format ready for YouTube upload.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Frequently Asked Questions</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-800">What is the ideal size for a YouTube thumbnail?</h3>
+                        <p class="text-gray-600">YouTube recommends using images that are 1280×720 pixels (16:9 aspect ratio) for thumbnails. Our tool automatically formats your thumbnail to this size.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Can I use my own images?</h3>
+                        <p class="text-gray-600">Yes, you can upload your own images to use as the background for your thumbnail. We support JPG, PNG, and other common image formats.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Are the thumbnails created with this tool high quality?</h3>
+                        <p class="text-gray-600">Yes, all thumbnails are generated in high resolution (1280×720 pixels) to ensure they look crisp and professional on YouTube.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Is my data secure when using this tool?</h3>
+                        <p class="text-gray-600">Yes, all image processing happens locally in your browser. Your images and designs are not uploaded to our servers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-2xl font-bold flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-400 mt-2">Your All-in-One Tool Platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="../about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-300 hover:text-white transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-300 hover:text-white transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>© <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- AdSense Placeholder -->
+    <div class="fixed bottom-0 left-0 w-full bg-white p-2 text-center text-sm text-gray-500 border-t border-gray-200">
+        Advertisement Placeholder - Optimized for Google AdSense
+    </div>
+</body>
+</html>

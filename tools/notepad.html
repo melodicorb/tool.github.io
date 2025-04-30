@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simple and easy-to-use online notepad with auto-save functionality, text formatting options, and the ability to download your notes.">
+    <meta name="keywords" content="online notepad, text editor, note taking, save notes online, download text notes, free notepad">
+    <title>Notepad - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Notepad JS -->
+    <script src="../js/notepad.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Notepad - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/notepad.html",
+      "description": "Simple and easy-to-use online notepad with auto-save functionality, text formatting options, and the ability to download your notes.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white py-2 px-4 hidden">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Notepad</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">A simple online notepad for your thoughts, ideas, and notes.</p>
+        </div>
+
+        <!-- Ad Container Top -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+
+        <!-- Notepad Container -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <!-- Toolbar -->
+            <div class="flex flex-wrap gap-2 mb-4 p-2 bg-gray-100 rounded-md">
+                <button id="btn-new" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    New
+                </button>
+                <button id="btn-download" class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Download
+                </button>
+                <button id="btn-copy" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    Copy
+                </button>
+                <div class="border-r border-gray-300 h-6 mx-1"></div>
+                <button id="btn-bold" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition font-bold">B</button>
+                <button id="btn-italic" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition italic">I</button>
+                <button id="btn-underline" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition underline">U</button>
+                <div class="border-r border-gray-300 h-6 mx-1"></div>
+                <select id="font-size" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition">
+                    <option value="12px">12px</option>
+                    <option value="14px" selected>14px</option>
+                    <option value="16px">16px</option>
+                    <option value="18px">18px</option>
+                    <option value="20px">20px</option>
+                    <option value="24px">24px</option>
+                </select>
+                <div class="border-r border-gray-300 h-6 mx-1"></div>
+                <button id="btn-clear" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    Clear
+                </button>
+            </div>
+            
+            <!-- Notepad Area -->
+            <div class="relative">
+                <textarea id="notepad" class="w-full h-96 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y font-mono" placeholder="Start typing here..."></textarea>
+                <div id="auto-save-indicator" class="absolute bottom-2 right-2 text-sm text-gray-500 italic">Auto-saving...</div>
+            </div>
+            
+            <!-- Character Count -->
+            <div class="mt-2 text-right text-sm text-gray-600">
+                <span id="char-count">0</span> characters | <span id="word-count">0</span> words
+            </div>
+        </div>
+
+        <!-- Tool Description -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">About Notepad</h2>
+            <p class="mb-4">Our online Notepad is a simple yet powerful tool designed to help you quickly jot down notes, ideas, or any text content. With features like auto-save, formatting options, and the ability to download your notes, it's perfect for everyday use.</p>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Features</h3>
+            <ul class="list-disc pl-6 mb-4 space-y-2">
+                <li>Clean, distraction-free writing environment</li>
+                <li>Auto-save functionality to prevent data loss</li>
+                <li>Basic text formatting options (bold, italic, underline)</li>
+                <li>Ability to download your notes as a text file</li>
+                <li>Copy to clipboard with one click</li>
+                <li>Character and word count</li>
+                <li>Mobile-friendly interface for note-taking on the go</li>
+            </ul>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">How to Use</h3>
+            <ol class="list-decimal pl-6 mb-4 space-y-2">
+                <li>Simply start typing in the notepad area</li>
+                <li>Use the toolbar buttons to format your text</li>
+                <li>Your notes are automatically saved as you type</li>
+                <li>Click the Download button to save your notes as a text file</li>
+                <li>Use the Copy button to copy all text to your clipboard</li>
+                <li>Click New to start a fresh note (your previous note will be saved)</li>
+            </ol>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Frequently Asked Questions</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold">Is my data secure?</h4>
+                    <p>Your notes are stored locally in your browser's storage and are not sent to any server. They remain private on your device.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Will I lose my notes if I close the browser?</h4>
+                    <p>No, your notes are automatically saved to your browser's local storage. They will be available when you return to the notepad, even after closing your browser.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Is there a character limit?</h4>
+                    <p>The notepad can handle thousands of characters, but for very large documents, we recommend downloading your text periodically and using a dedicated word processor.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Can I format my text?</h4>
+                    <p>Yes, you can use the formatting buttons in the toolbar to make text bold, italic, or underlined. You can also change the font size.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">How do I save my notes?</h4>
+                    <p>Your notes are automatically saved as you type. You can also download them as a text file by clicking the Download button.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Container Bottom -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 border-t">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-xl font-bold text-indigo-600 flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-600 mt-2">Your all-in-one tool platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-600 hover:text-indigo-600 transition">Home</a>
+                    <a href="../about.html" class="text-gray-600 hover:text-indigo-600 transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-indigo-600 transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-indigo-600 transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-600">
+                <p>© <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // Set current year in footer
+            const currentYearElement = document.getElementById('current-year');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+        });
+    </script>
+</body>
+</html>

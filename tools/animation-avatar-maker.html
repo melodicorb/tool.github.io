@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create custom animated avatars with our free online animation avatar maker. Design personalized characters with various styles, expressions, and animations.">
+    <meta name="keywords" content="animation avatar maker, animated character creator, avatar generator, custom avatar, animated profile picture, character animation, free avatar maker">
+    <title>Animation Avatar Maker - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Animation Avatar Maker JS -->
+    <script src="../js/animation-avatar-maker.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Animation Avatar Maker - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/animation-avatar-maker.html",
+      "description": "Create custom animated avatars with our free online animation avatar maker. Design personalized characters with various styles, expressions, and animations.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white py-2 px-4 hidden">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Animation Avatar Maker</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Create personalized animated avatars for your social media, gaming profiles, or projects.</p>
+        </div>
+
+        <!-- Ad Container Top -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+
+        <!-- Avatar Maker Container -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Controls Panel -->
+                <div class="md:col-span-1 bg-gray-50 p-4 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4">Avatar Elements</h2>
+                    
+                    <!-- Character Type Section -->
+                    <div class="mb-6">
+                        <h3 class="font-medium mb-2">Character Type</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button class="character-btn p-2 border rounded hover:bg-gray-200 bg-gray-200" data-character="human">Human</button>
+                            <button class="character-btn p-2 border rounded hover:bg-gray-200" data-character="robot">Robot</button>
+                            <button class="character-btn p-2 border rounded hover:bg-gray-200" data-character="animal">Animal</button>
+                            <button class="character-btn p-2 border rounded hover:bg-gray-200" data-character="fantasy">Fantasy</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Appearance Section -->
+                    <div class="mb-6">
+                        <h3 class="font-medium mb-2">Appearance</h3>
+                        
+                        <!-- Face Shape -->
+                        <div class="mb-3">
+                            <label for="face-shape" class="block text-sm mb-1">Face Shape</label>
+                            <select id="face-shape" class="w-full p-2 border rounded">
+                                <option value="round">Round</option>
+                                <option value="oval">Oval</option>
+                                <option value="square">Square</option>
+                                <option value="heart">Heart</option>
+                                <option value="diamond">Diamond</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Skin/Color -->
+                        <div class="mb-3">
+                            <label for="skin-color" class="block text-sm mb-1">Skin/Color</label>
+                            <input type="color" id="skin-color" class="w-full p-1 border rounded" value="#F8D5C2">
+                        </div>
+                        
+                        <!-- Hair Style -->
+                        <div class="mb-3">
+                            <label for="hair-style" class="block text-sm mb-1">Hair Style</label>
+                            <select id="hair-style" class="w-full p-2 border rounded">
+                                <option value="short">Short</option>
+                                <option value="long">Long</option>
+                                <option value="curly">Curly</option>
+                                <option value="bald">Bald</option>
+                                <option value="mohawk">Mohawk</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Hair Color -->
+                        <div class="mb-3">
+                            <label for="hair-color" class="block text-sm mb-1">Hair Color</label>
+                            <input type="color" id="hair-color" class="w-full p-1 border rounded" value="#4A3728">
+                        </div>
+                    </div>
+                    
+                    <!-- Features Section -->
+                    <div class="mb-6">
+                        <h3 class="font-medium mb-2">Features</h3>
+                        
+                        <!-- Eyes -->
+                        <div class="mb-3">
+                            <label for="eyes" class="block text-sm mb-1">Eyes</label>
+                            <select id="eyes" class="w-full p-2 border rounded">
+                                <option value="round">Round</option>
+                                <option value="almond">Almond</option>
+                                <option value="wide">Wide</option>
+                                <option value="narrow">Narrow</option>
+                                <option value="anime">Anime</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Eye Color -->
+                        <div class="mb-3">
+                            <label for="eye-color" class="block text-sm mb-1">Eye Color</label>
+                            <input type="color" id="eye-color" class="w-full p-1 border rounded" value="#3D85C6">
+                        </div>
+                        
+                        <!-- Mouth -->
+                        <div class="mb-3">
+                            <label for="mouth" class="block text-sm mb-1">Mouth</label>
+                            <select id="mouth" class="w-full p-2 border rounded">
+                                <option value="smile">Smile</option>
+                                <option value="neutral">Neutral</option>
+                                <option value="frown">Frown</option>
+                                <option value="open">Open</option>
+                                <option value="smirk">Smirk</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Accessories -->
+                        <div class="mb-3">
+                            <label for="accessories" class="block text-sm mb-1">Accessories</label>
+                            <select id="accessories" class="w-full p-2 border rounded">
+                                <option value="none">None</option>
+                                <option value="glasses">Glasses</option>
+                                <option value="hat">Hat</option>
+                                <option value="earrings">Earrings</option>
+                                <option value="mask">Mask</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Animation Section -->
+                    <div class="mb-6">
+                        <h3 class="font-medium mb-2">Animation</h3>
+                        
+                        <!-- Animation Type -->
+                        <div class="mb-3">
+                            <label for="animation-type" class="block text-sm mb-1">Animation Type</label>
+                            <select id="animation-type" class="w-full p-2 border rounded">
+                                <option value="idle">Idle</option>
+                                <option value="wave">Wave</option>
+                                <option value="jump">Jump</option>
+                                <option value="dance">Dance</option>
+                                <option value="spin">Spin</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Animation Speed -->
+                        <div class="mb-3">
+                            <label for="animation-speed" class="block text-sm mb-1">Animation Speed</label>
+                            <div class="flex items-center">
+                                <input type="range" id="animation-speed" class="w-full" min="1" max="10" value="5">
+                                <span id="speed-display" class="ml-2 text-sm">5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Background Section -->
+                    <div class="mb-6">
+                        <h3 class="font-medium mb-2">Background</h3>
+                        
+                        <!-- Background Color -->
+                        <div class="mb-3">
+                            <label for="bg-color" class="block text-sm mb-1">Background Color</label>
+                            <input type="color" id="bg-color" class="w-full p-1 border rounded" value="#FFFFFF">
+                        </div>
+                        
+                        <!-- Background Style -->
+                        <div class="mb-3">
+                            <label for="bg-style" class="block text-sm mb-1">Background Style</label>
+                            <select id="bg-style" class="w-full p-2 border rounded">
+                                <option value="solid">Solid Color</option>
+                                <option value="gradient">Gradient</option>
+                                <option value="pattern">Pattern</option>
+                                <option value="transparent">Transparent</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex space-x-2">
+                        <button id="btn-reset" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded transition">Reset</button>
+                        <button id="btn-download" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded transition">Download</button>
+                    </div>
+                </div>
+                
+                <!-- Preview Panel -->
+                <div class="md:col-span-2">
+                    <div class="bg-gray-100 rounded-lg p-4 h-full flex flex-col">
+                        <h2 class="text-xl font-semibold mb-4 text-center">Avatar Preview</h2>
+                        
+                        <!-- Avatar Canvas Container -->
+                        <div class="flex-grow flex items-center justify-center bg-white rounded-lg border-2 border-dashed border-gray-300 p-4 mb-4">
+                            <div id="avatar-preview" class="w-64 h-64 relative">
+                                <!-- Avatar will be rendered here -->
+                                <div class="absolute inset-0 flex items-center justify-center text-gray-400">
+                                    <p>Your animated avatar will appear here</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Preview Controls -->
+                        <div class="flex justify-center space-x-4">
+                            <button id="btn-play" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition">
+                                <svg class="w-5 h-5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Play Animation
+                            </button>
+                            <button id="btn-pause" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded transition">
+                                <svg class="w-5 h-5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Pause
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Instructions Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold mb-4">How to Use the Animation Avatar Maker</h2>
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-lg font-semibold">1. Choose a Character Type</h3>
+                    <p class="text-gray-600">Select from human, robot, animal, or fantasy character types as your base.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">2. Customize Appearance</h3>
+                    <p class="text-gray-600">Adjust face shape, skin color, hair style, and other physical attributes to create your unique character.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">3. Add Features and Accessories</h3>
+                    <p class="text-gray-600">Customize eyes, mouth, and add accessories like glasses, hats, or earrings to enhance your avatar.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">4. Choose Animation</h3>
+                    <p class="text-gray-600">Select an animation type and adjust the speed to bring your avatar to life.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">5. Set Background</h3>
+                    <p class="text-gray-600">Choose a background color and style to complement your animated avatar.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">6. Download Your Creation</h3>
+                    <p class="text-gray-600">Once satisfied with your animated avatar, click the Download button to save it as a GIF or PNG file.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-lg font-semibold">What file formats can I download my avatar in?</h3>
+                    <p class="text-gray-600">You can download your animated avatar as a GIF for animations or a PNG for static images.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">Can I use my avatar for commercial purposes?</h3>
+                    <p class="text-gray-600">Yes, all avatars created with our tool are free for both personal and commercial use.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">Is there a limit to how many avatars I can create?</h3>
+                    <p class="text-gray-600">No, you can create as many unique avatars as you want with our free tool.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">Can I save my avatar to edit later?</h3>
+                    <p class="text-gray-600">Currently, we don't support saving avatars for later editing. We recommend taking a screenshot of your settings if you want to recreate a similar avatar later.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">Why isn't my animation working?</h3>
+                    <p class="text-gray-600">Make sure you've clicked the Play Animation button. If it still doesn't work, try using a different browser or clearing your cache.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Container Bottom -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-2xl font-bold flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-400 mt-2">Your All-in-One Tool Platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center md:justify-end gap-4">
+                    <a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="../about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-300 hover:text-white transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-300 hover:text-white transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>© <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

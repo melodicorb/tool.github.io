@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Search and copy emojis with keywords and categories. Find the perfect emoji for your messages, social media posts, and documents.">
+    <meta name="keywords" content="emoji finder, emoji search, emoji copy, emoji categories, emoji tool, emoji keyboard">
+    <title>Emoji Finder - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Emoji Finder JS -->
+    <script src="../js/emoji-finder.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Emoji Finder - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/emoji-finder.html",
+      "description": "Search and copy emojis with keywords and categories. Find the perfect emoji for your messages, social media posts, and documents.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-white bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white px-4 py-3 shadow-inner">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon bg-yellow-100 text-yellow-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Emoji Finder</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Search and copy emojis with keywords and categories. Find the perfect emoji for your messages, social media posts, and documents.</p>
+        </div>
+
+        <!-- Emoji Finder Tool -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <!-- Search and Filter Controls -->
+            <div class="mb-6">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-grow">
+                        <label for="emoji-search" class="block text-sm font-medium text-gray-700 mb-1">Search Emojis</label>
+                        <div class="relative">
+                            <input type="text" id="emoji-search" placeholder="Search by keyword (e.g., smile, heart, food)" 
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-10">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/3">
+                        <label for="emoji-category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                        <select id="emoji-category" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="all">All Categories</option>
+                            <option value="smileys">Smileys & Emotion</option>
+                            <option value="people">People & Body</option>
+                            <option value="animals">Animals & Nature</option>
+                            <option value="food">Food & Drink</option>
+                            <option value="travel">Travel & Places</option>
+                            <option value="activities">Activities</option>
+                            <option value="objects">Objects</option>
+                            <option value="symbols">Symbols</option>
+                            <option value="flags">Flags</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emoji Display Area -->
+            <div id="emoji-container" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 mb-6">
+                <!-- Emojis will be populated here by JavaScript -->
+                <div class="emoji-loading text-center col-span-full py-8">
+                    <svg class="animate-spin h-8 w-8 text-indigo-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <p class="mt-2 text-gray-600">Loading emojis...</p>
+                </div>
+            </div>
+
+            <!-- Recently Used Section -->
+            <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-800 mb-3">Recently Used</h3>
+                <div id="recent-emojis" class="flex flex-wrap gap-3">
+                    <!-- Recently used emojis will be populated here -->
+                    <p id="no-recent" class="text-gray-500 italic">No recently used emojis</p>
+                </div>
+            </div>
+
+            <!-- Copy Notification -->
+            <div id="copy-notification" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg transform translate-y-20 transition-transform duration-300">
+                Emoji copied to clipboard! ✓
+            </div>
+        </div>
+
+        <!-- Tool Guide Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">How to Use the Emoji Finder</h2>
+            
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-indigo-100 rounded-full p-2 mr-3">
+                        <span class="text-xl">1️⃣</span>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Search for Emojis</h3>
+                        <p class="text-gray-600">Type keywords in the search box to find related emojis (e.g., "happy", "food", "heart").</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-indigo-100 rounded-full p-2 mr-3">
+                        <span class="text-xl">2️⃣</span>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Filter by Category</h3>
+                        <p class="text-gray-600">Use the category dropdown to narrow down your search to specific emoji types.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-indigo-100 rounded-full p-2 mr-3">
+                        <span class="text-xl">3️⃣</span>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Copy Emojis</h3>
+                        <p class="text-gray-600">Click on any emoji to copy it to your clipboard, ready to paste anywhere.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 bg-indigo-100 rounded-full p-2 mr-3">
+                        <span class="text-xl">4️⃣</span>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Quick Access</h3>
+                        <p class="text-gray-600">Your recently used emojis will appear in the "Recently Used" section for quick access.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+            
+            <div class="space-y-4">
+                <div class="border-b border-gray-200 pb-4">
+                    <button class="faq-question w-full text-left font-medium text-gray-800 flex justify-between items-center focus:outline-none">
+                        <span>Why can't I see some emojis?</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer mt-2 text-gray-600 hidden">
+                        Emoji display depends on your operating system and browser support. Newer emojis might not be visible on older systems. The tool shows the most widely supported emojis across platforms.
+                    </div>
+                </div>
+                
+                <div class="border-b border-gray-200 pb-4">
+                    <button class="faq-question w-full text-left font-medium text-gray-800 flex justify-between items-center focus:outline-none">
+                        <span>Can I use these emojis anywhere?</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer mt-2 text-gray-600 hidden">
+                        Yes! Once copied, you can paste the emojis into any text field that supports emoji characters, including social media posts, messages, emails, and documents.
+                    </div>
+                </div>
+                
+                <div class="border-b border-gray-200 pb-4">
+                    <button class="faq-question w-full text-left font-medium text-gray-800 flex justify-between items-center focus:outline-none">
+                        <span>How are the emojis organized?</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer mt-2 text-gray-600 hidden">
+                        Emojis are organized according to the Unicode Emoji standard categories. You can browse by these categories or use the search function to find specific emojis by keyword.
+                    </div>
+                </div>
+                
+                <div class="border-b border-gray-200 pb-4">
+                    <button class="faq-question w-full text-left font-medium text-gray-800 flex justify-between items-center focus:outline-none">
+                        <span>Does this tool work offline?</span>
+                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer mt-2 text-gray-600 hidden">
+                        No, this tool requires an internet connection to load properly. However, once loaded, basic functionality should work without further internet access.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Space -->
+        <div class="bg-gray-100 rounded-xl p-6 mb-8 max-w-4xl mx-auto text-center">
+            <p class="text-gray-500 mb-2">Advertisement</p>
+            <div class="h-[250px] bg-gray-200 flex items-center justify-center">
+                <p class="text-gray-400">Ad Space - Google AdSense</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-2xl font-bold text-white flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-400 mt-2">Your All-in-One Tool Platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="../about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-300 hover:text-white transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-300 hover:text-white transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center">
+                <p class="text-gray-400">&copy; <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('svg');
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+    </script>
+</body>
+</html>

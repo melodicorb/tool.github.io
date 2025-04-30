@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Easy-to-use percentage calculator with multiple calculation modes including basic percentage, increase/decrease, and percentage difference.">
+    <meta name="keywords" content="percentage calculator, percent calculator, percentage increase, percentage decrease, percentage difference, online calculator">
+    <title>Percentage Calculator - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Percentage Calculator JS -->
+    <script src="../js/percentage-calculator.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Percentage Calculator - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/percentage-calculator.html",
+      "description": "Easy-to-use percentage calculator with multiple calculation modes including basic percentage, increase/decrease, and percentage difference.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white py-2 px-4 hidden">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Percentage Calculator</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Calculate percentages, increases/decreases, and differences with ease.</p>
+        </div>
+
+        <!-- Ad Container Top -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+
+        <!-- Calculator Container -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-2xl mx-auto">
+            <!-- Calculator Mode Selector -->
+            <div class="mb-6">
+                <label for="calc-mode" class="block text-gray-700 font-medium mb-2">Calculation Mode:</label>
+                <select id="calc-mode" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="basic">Basic Percentage</option>
+                    <option value="increase">Percentage Increase/Decrease</option>
+                    <option value="difference">Percentage Difference</option>
+                </select>
+            </div>
+
+            <!-- Basic Percentage Calculator -->
+            <div id="basic-calculator" class="calculator-section">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="percent-value" class="block text-gray-700 font-medium mb-2">Percentage (%):</label>
+                        <input type="number" id="percent-value" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter percentage">
+                    </div>
+                    <div>
+                        <label for="base-value" class="block text-gray-700 font-medium mb-2">Value:</label>
+                        <input type="number" id="base-value" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter value">
+                    </div>
+                </div>
+                <button id="calculate-basic" class="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition">Calculate</button>
+                <div class="mt-4 p-4 bg-gray-100 rounded-md">
+                    <p class="text-lg font-medium">Result:</p>
+                    <p id="basic-result" class="text-2xl font-bold text-indigo-600">0</p>
+                </div>
+            </div>
+
+            <!-- Percentage Increase/Decrease Calculator -->
+            <div id="increase-calculator" class="calculator-section hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="original-value" class="block text-gray-700 font-medium mb-2">Original Value:</label>
+                        <input type="number" id="original-value" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter original value">
+                    </div>
+                    <div>
+                        <label for="new-value" class="block text-gray-700 font-medium mb-2">New Value:</label>
+                        <input type="number" id="new-value" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter new value">
+                    </div>
+                </div>
+                <button id="calculate-increase" class="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition">Calculate</button>
+                <div class="mt-4 p-4 bg-gray-100 rounded-md">
+                    <p class="text-lg font-medium">Percentage Change:</p>
+                    <p id="increase-result" class="text-2xl font-bold text-indigo-600">0%</p>
+                </div>
+            </div>
+
+            <!-- Percentage Difference Calculator -->
+            <div id="difference-calculator" class="calculator-section hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="value-one" class="block text-gray-700 font-medium mb-2">First Value:</label>
+                        <input type="number" id="value-one" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter first value">
+                    </div>
+                    <div>
+                        <label for="value-two" class="block text-gray-700 font-medium mb-2">Second Value:</label>
+                        <input type="number" id="value-two" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter second value">
+                    </div>
+                </div>
+                <button id="calculate-difference" class="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition">Calculate</button>
+                <div class="mt-4 p-4 bg-gray-100 rounded-md">
+                    <p class="text-lg font-medium">Percentage Difference:</p>
+                    <p id="difference-result" class="text-2xl font-bold text-indigo-600">0%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculation History -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-2xl mx-auto">
+            <h2 class="text-xl font-semibold mb-4">Calculation History</h2>
+            <div id="history-list" class="max-h-60 overflow-y-auto">
+                <p class="text-gray-500 text-center italic">Your calculation history will appear here.</p>
+            </div>
+        </div>
+
+        <!-- Tool Description -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">About Percentage Calculator</h2>
+            <p class="mb-4">Our Percentage Calculator is a versatile tool designed to help you perform various percentage-based calculations quickly and accurately. Whether you need to find a percentage of a value, calculate percentage increases or decreases, or determine the percentage difference between two values, this tool has you covered.</p>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Features</h3>
+            <ul class="list-disc pl-6 mb-4 space-y-2">
+                <li>Basic percentage calculations (find X% of Y)</li>
+                <li>Percentage increase or decrease calculations</li>
+                <li>Percentage difference between two values</li>
+                <li>Calculation history for reviewing previous operations</li>
+                <li>Mobile-friendly interface for calculations on the go</li>
+            </ul>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">How to Use</h3>
+            <ol class="list-decimal pl-6 mb-4 space-y-2">
+                <li>Select the calculation mode from the dropdown menu</li>
+                <li>Enter the required values in the input fields</li>
+                <li>Click the Calculate button to perform the calculation</li>
+                <li>View your result in the result box</li>
+                <li>Review your calculation history in the section below the calculator</li>
+            </ol>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Calculation Modes</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold">Basic Percentage</h4>
+                    <p>Calculate what is X% of Y. For example, what is 15% of 200? (Answer: 30)</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Percentage Increase/Decrease</h4>
+                    <p>Calculate the percentage change from one value to another. For example, if a price increases from $80 to $100, that's a 25% increase.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Percentage Difference</h4>
+                    <p>Calculate the percentage difference between two values relative to their average. This is useful when comparing two values without considering one as the original or base value.</p>
+                </div>
+            </div>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Frequently Asked Questions</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold">What's the difference between percentage change and percentage difference?</h4>
+                    <p>Percentage change measures the change relative to the original value, while percentage difference measures the difference relative to the average of the two values.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">How do I calculate a discount?</h4>
+                    <p>Use the Basic Percentage mode. For example, to calculate a 20% discount on $100, enter 20 as the percentage and 100 as the value. The result ($20) is the discount amount.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Is my calculation history saved?</h4>
+                    <p>Your calculation history is stored in your browser's local storage and will persist between sessions until you clear your browser data.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Can I use negative percentages?</h4>
+                    <p>Yes, you can enter negative percentages for calculations involving reductions or decreases.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Container Bottom -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 border-t">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-xl font-bold text-indigo-600 flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-600 mt-2">Your all-in-one tool platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-600 hover:text-indigo-600 transition">Home</a>
+                    <a href="../about.html" class="text-gray-600 hover:text-indigo-600 transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-indigo-600 transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-indigo-600 transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-600">
+                <p>© <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // Set current year in footer
+            const currentYearElement = document.getElementById('current-year');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online plagiarism checker tool to detect copied content and verify text originality. Compare your text against online sources to avoid plagiarism.">
+    <meta name="keywords" content="plagiarism checker, plagiarism detector, content originality, text similarity, plagiarism tool, academic integrity, duplicate content checker">
+    <title>Plagiarism Checker - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Plagiarism Checker JS -->
+    <script src="../js/plagiarism-checker.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Plagiarism Checker - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/plagiarism-checker.html",
+      "description": "Free online plagiarism checker tool to detect copied content and verify text originality. Compare your text against online sources to avoid plagiarism.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Animation Canvas -->
+    <canvas id="animation-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span>MultiTool Hub</span>
+            </a>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="../index.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Home</a></li>
+                    <li><a href="../about.html" class="text-gray-600 hover:text-indigo-600 transition-colors">About</a></li>
+                    <li><a href="../contact.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="w-24 h-24 mx-auto mb-4 relative">
+                <!-- 3D Icon Container -->
+                <div id="plagiarism-icon-container" class="w-full h-full"></div>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Plagiarism Checker</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Verify the originality of your content by checking for plagiarism against online sources. Protect your academic integrity and ensure your writing is unique.</p>
+        </div>
+
+        <!-- Plagiarism Checker Tool -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <!-- Text Input Area -->
+            <div class="mb-6">
+                <label for="plagiarism-input" class="block text-sm font-medium text-gray-700 mb-1">Enter your text</label>
+                <textarea id="plagiarism-input" rows="8" placeholder="Type or paste your text here to check for plagiarism..." 
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+            </div>
+
+            <!-- Options -->
+            <div class="mb-6">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex-grow">
+                        <label for="check-type" class="block text-sm font-medium text-gray-700 mb-1">Check type</label>
+                        <select id="check-type" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="standard">Standard Check</option>
+                            <option value="deep">Deep Analysis</option>
+                            <option value="academic">Academic Check</option>
+                        </select>
+                    </div>
+                    <div class="flex-grow">
+                        <label for="exclude-sources" class="block text-sm font-medium text-gray-700 mb-1">Exclude sources (optional)</label>
+                        <input type="text" id="exclude-sources" placeholder="e.g., wikipedia.org, example.com" 
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                <button id="check-plagiarism" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-colors flex-grow flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    Check Plagiarism
+                </button>
+                <button id="clear-text" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    Clear Text
+                </button>
+                <button id="download-report" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors flex items-center justify-center" disabled>
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Download Report
+                </button>
+            </div>
+
+            <!-- Results Area -->
+            <div id="results-area" class="hidden">
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-800 mb-3">Plagiarism Score</h3>
+                    <div class="flex items-center">
+                        <div id="plagiarism-meter" class="w-full bg-gray-200 rounded-full h-6 mr-4">
+                            <div id="plagiarism-percentage" class="bg-green-500 h-6 rounded-full text-xs text-white flex items-center justify-center" style="width: 0%">0%</div>
+                        </div>
+                        <span id="originality-label" class="text-sm font-medium text-green-600">100% Original</span>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-medium text-gray-800 mb-3">Matched Sources</h3>
+                <div id="matched-sources" class="border border-gray-200 rounded-md p-4 mb-6 bg-gray-50">
+                    <!-- Matched sources will be displayed here -->
+                    <p class="text-gray-500 text-center">No matches found yet. Click "Check Plagiarism" to analyze your text.</p>
+                </div>
+
+                <h3 class="text-lg font-medium text-gray-800 mb-3">Text Analysis</h3>
+                <div id="text-analysis" class="border border-gray-200 rounded-md p-4 bg-white">
+                    <!-- Text with highlighted plagiarism will be displayed here -->
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loading-indicator" class="hidden text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600"></div>
+                <p class="mt-2 text-gray-600">Analyzing your text for plagiarism...</p>
+            </div>
+        </div>
+
+        <!-- Tool Guide -->
+        <div class="bg-white rounded-xl shadow-lg p-6 max-w-4xl mx-auto">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">How to Use the Plagiarism Checker</h2>
+            <ol class="list-decimal pl-5 space-y-2 mb-6">
+                <li>Type or paste your text in the input area above.</li>
+                <li>Select the type of check you want to perform.</li>
+                <li>Optionally, specify sources to exclude from the check.</li>
+                <li>Click the "Check Plagiarism" button to analyze your text.</li>
+                <li>Review the plagiarism score and matched sources.</li>
+                <li>Download a detailed report for your records.</li>
+            </ol>
+
+            <h3 class="text-lg font-medium text-gray-800 mb-2">Features</h3>
+            <ul class="list-disc pl-5 space-y-1 mb-6">
+                <li>Comprehensive plagiarism detection against online sources</li>
+                <li>Multiple check types for different needs</li>
+                <li>Highlighted text showing potential plagiarism</li>
+                <li>Source attribution with links to original content</li>
+                <li>Downloadable reports for documentation</li>
+            </ul>
+
+            <h3 class="text-lg font-medium text-gray-800 mb-2">FAQ</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-medium text-gray-800">Is my text stored or shared?</h4>
+                    <p class="text-gray-600">No, your text is processed securely and is never stored on our servers or shared with third parties after the check is complete.</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800">How accurate is the plagiarism detection?</h4>
+                    <p class="text-gray-600">Our tool compares your text against billions of web pages, academic papers, and publications for high accuracy. However, no plagiarism checker is 100% perfect, so we recommend using it as a guide.</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800">Are there any text length limitations?</h4>
+                    <p class="text-gray-600">The standard check supports texts up to 3,000 words. For longer documents, you may need to check sections separately or use the deep analysis option.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Copy Notification -->
+    <div id="copy-notification" class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-md shadow-lg transform translate-y-20 transition-transform duration-300">
+        Report downloaded successfully!
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-xl font-bold">MultiTool Hub</h2>
+                    <p class="text-gray-400">Free online tools for everyday tasks</p>
+                </div>
+                <div>
+                    <ul class="flex space-x-4">
+                        <li><a href="../index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="../about.html" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="../privacy.html" class="text-gray-400 hover:text-white transition-colors">Privacy</a></li>
+                        <li><a href="../contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>&copy; <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+                <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

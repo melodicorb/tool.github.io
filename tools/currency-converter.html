@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online currency converter with real-time exchange rates. Convert between major world currencies quickly and accurately.">
+    <meta name="keywords" content="currency converter, exchange rate calculator, money converter, forex converter, online currency tool">
+    <title>Currency Converter - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Currency Converter JS -->
+    <script src="../js/currency-converter.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Currency Converter - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/currency-converter.html",
+      "description": "Free online currency converter with real-time exchange rates. Convert between major world currencies quickly and accurately.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white px-4 py-3 shadow-inner">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Title Section -->
+        <div class="text-center mb-10">
+            <div class="tool-icon bg-green-100 text-green-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Currency Converter</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Convert between different currencies with real-time exchange rates. Quick, accurate, and easy to use.</p>
+        </div>
+
+        <!-- Currency Converter Tool -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <!-- Converter Form -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- From Currency -->
+                    <div class="space-y-3">
+                        <label for="from-amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <input type="number" id="from-amount" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 py-3 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" value="1">
+                        </div>
+                        <label for="from-currency" class="block text-sm font-medium text-gray-700">From Currency</label>
+                        <select id="from-currency" class="mt-1 block w-full py-3 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="USD" selected>USD - US Dollar</option>
+                            <option value="EUR">EUR - Euro</option>
+                            <option value="GBP">GBP - British Pound</option>
+                            <option value="JPY">JPY - Japanese Yen</option>
+                            <option value="CAD">CAD - Canadian Dollar</option>
+                            <option value="AUD">AUD - Australian Dollar</option>
+                            <option value="CHF">CHF - Swiss Franc</option>
+                            <option value="CNY">CNY - Chinese Yuan</option>
+                            <option value="INR">INR - Indian Rupee</option>
+                            <option value="BRL">BRL - Brazilian Real</option>
+                            <option value="MXN">MXN - Mexican Peso</option>
+                            <option value="SGD">SGD - Singapore Dollar</option>
+                            <option value="HKD">HKD - Hong Kong Dollar</option>
+                            <option value="SEK">SEK - Swedish Krona</option>
+                            <option value="NZD">NZD - New Zealand Dollar</option>
+                            <option value="ZAR">ZAR - South African Rand</option>
+                            <option value="RUB">RUB - Russian Ruble</option>
+                            <option value="TRY">TRY - Turkish Lira</option>
+                        </select>
+                    </div>
+
+                    <!-- To Currency -->
+                    <div class="space-y-3">
+                        <label for="to-amount" class="block text-sm font-medium text-gray-700">Converted Amount</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <input type="text" id="to-amount" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 py-3 sm:text-sm border-gray-300 rounded-md bg-gray-50" placeholder="0.00" readonly>
+                        </div>
+                        <label for="to-currency" class="block text-sm font-medium text-gray-700">To Currency</label>
+                        <select id="to-currency" class="mt-1 block w-full py-3 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="USD">USD - US Dollar</option>
+                            <option value="EUR" selected>EUR - Euro</option>
+                            <option value="GBP">GBP - British Pound</option>
+                            <option value="JPY">JPY - Japanese Yen</option>
+                            <option value="CAD">CAD - Canadian Dollar</option>
+                            <option value="AUD">AUD - Australian Dollar</option>
+                            <option value="CHF">CHF - Swiss Franc</option>
+                            <option value="CNY">CNY - Chinese Yuan</option>
+                            <option value="INR">INR - Indian Rupee</option>
+                            <option value="BRL">BRL - Brazilian Real</option>
+                            <option value="MXN">MXN - Mexican Peso</option>
+                            <option value="SGD">SGD - Singapore Dollar</option>
+                            <option value="HKD">HKD - Hong Kong Dollar</option>
+                            <option value="SEK">SEK - Swedish Krona</option>
+                            <option value="NZD">NZD - New Zealand Dollar</option>
+                            <option value="ZAR">ZAR - South African Rand</option>
+                            <option value="RUB">RUB - Russian Ruble</option>
+                            <option value="TRY">TRY - Turkish Lira</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Swap Button -->
+                <div class="flex justify-center my-4">
+                    <button id="swap-currencies" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                        </svg>
+                        Swap Currencies
+                    </button>
+                </div>
+
+                <!-- Convert Button -->
+                <div class="mt-6">
+                    <button id="convert-button" class="w-full inline-flex justify-center py-3 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Convert
+                    </button>
+                </div>
+
+                <!-- Exchange Rate Info -->
+                <div class="mt-4 text-center text-sm text-gray-500" id="exchange-rate-info">
+                    1 USD = <span id="current-rate">0.00</span> EUR
+                </div>
+
+                <!-- Last Updated -->
+                <div class="mt-2 text-center text-xs text-gray-400" id="last-updated">
+                    Last updated: <span id="update-time">Fetching...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Information Section -->
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">About Currency Converter</h2>
+                
+                <div class="prose max-w-none">
+                    <p>Our Currency Converter tool provides real-time exchange rates for major world currencies. Whether you're planning a trip abroad, managing international business, or just curious about exchange rates, this tool offers quick and accurate conversions.</p>
+                    
+                    <h3 class="text-xl font-semibold mt-6 mb-2">Features</h3>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Convert between major world currencies with real-time exchange rates</li>
+                        <li>Simple, intuitive interface for quick conversions</li>
+                        <li>Swap currencies with a single click</li>
+                        <li>View the current exchange rate between selected currencies</li>
+                        <li>Timestamp showing when rates were last updated</li>
+                    </ul>
+                    
+                    <h3 class="text-xl font-semibold mt-6 mb-2">How to Use</h3>
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>Enter the amount you want to convert in the "Amount" field</li>
+                        <li>Select the currency you're converting from in the "From Currency" dropdown</li>
+                        <li>Select the currency you're converting to in the "To Currency" dropdown</li>
+                        <li>Click the "Convert" button to see the result</li>
+                        <li>Use the "Swap Currencies" button to quickly reverse the conversion</li>
+                    </ol>
+                    
+                    <h3 class="text-xl font-semibold mt-6 mb-2">Frequently Asked Questions</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-medium">How accurate are the exchange rates?</h4>
+                            <p>Our exchange rates are sourced from reliable financial data providers and are updated regularly. However, please note that the actual rates offered by banks or money exchange services may vary slightly due to their service fees and margins.</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium">How often are the exchange rates updated?</h4>
+                            <p>Exchange rates are typically updated several times a day during weekdays. The timestamp below the converter shows when the rates were last updated.</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium">Can I use this for commercial purposes?</h4>
+                            <p>This tool is provided for informational purposes only. For commercial or financial decision-making, we recommend consulting with a financial advisor or using specialized financial services.</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium">Why aren't all world currencies available?</h4>
+                            <p>We currently support major world currencies. We're continuously working to expand our currency options in future updates.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Space -->
+        <div class="max-w-4xl mx-auto bg-gray-100 rounded-xl p-4 text-center mb-10">
+            <p class="text-gray-500 text-sm">Advertisement Space</p>
+            <!-- Ad content would go here -->
+            <div class="h-32 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
+                <p class="text-gray-400">Ad Content</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-2xl font-bold text-white flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-400 mt-2">Your All-in-One Tool Platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="../about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-300 hover:text-white transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-300 hover:text-white transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>© <span id="current-year">2023</span> MultiTool Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Update current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

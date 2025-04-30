@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create custom emojis with our free online emoji maker tool. Combine different facial features, colors, and accessories to design your own unique emojis.">
+    <meta name="keywords" content="emoji maker, custom emoji, emoji creator, emoji designer, create emoji, personalized emoji, emoji generator">
+    <title>Emoji Maker - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GIF.js for animated GIF creation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Emoji Maker JS -->
+    <script src="../js/emoji-maker.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Emoji Maker - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/emoji-maker.html",
+      "description": "Create custom emojis with our free online emoji maker tool. Combine different facial features, colors, and accessories to design your own unique emojis.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-white bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white px-4 py-3 shadow-inner">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon bg-yellow-100 text-yellow-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Emoji Maker</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Create custom emojis by combining different facial features, colors, and accessories. Design your own unique emojis for messages, social media, and more.</p>
+        </div>
+
+        <!-- Emoji Maker Tool -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Emoji Customization Panel -->
+                <div class="md:col-span-1 bg-gray-50 p-4 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Customize Your Emoji</h2>
+                    
+                    <!-- Base Shape -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Base Shape</label>
+                        <div class="grid grid-cols-4 gap-2" id="base-shape-options">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+                    
+                    <!-- Color Picker -->
+                    <div class="mb-4">
+                        <label for="emoji-color" class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                        <input type="color" id="emoji-color" value="#FFDD67" class="w-full h-10 rounded cursor-pointer">
+                    </div>
+                    
+                    <!-- Eyes -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Eyes</label>
+                        <div class="grid grid-cols-4 gap-2" id="eyes-options">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+                    
+                    <!-- Mouth -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Mouth</label>
+                        <div class="grid grid-cols-4 gap-2" id="mouth-options">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+                    
+                    <!-- Accessories -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Accessories</label>
+                        <div class="grid grid-cols-4 gap-2" id="accessories-options">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+                    
+                    <!-- Reset Button -->
+                    <button id="reset-emoji" class="w-full bg-gray-200 text-gray-800 py-2 rounded-md hover:bg-gray-300 transition mt-4">
+                        Reset
+                    </button>
+                </div>
+                
+                <!-- Emoji Preview -->
+                <div class="md:col-span-2">
+                    <div class="bg-gray-100 rounded-lg p-4 h-full flex flex-col">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800 text-center">Preview</h2>
+                        
+                        <!-- Preview Canvas -->
+                        <div class="flex-grow flex items-center justify-center mb-4">
+                            <div id="emoji-preview" class="w-64 h-64 bg-white rounded-full shadow-md relative">
+                                <!-- JS will render the emoji here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <button id="download-emoji" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Download
+                            </button>
+                            <button id="share-emoji" class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                                </svg>
+                                Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ad Container -->
+        <div class="bg-gray-100 p-4 rounded-lg text-center mb-8 max-w-5xl mx-auto">
+            <p class="text-gray-500">Advertisement Space</p>
+            <!-- Ad code would go here -->
+        </div>
+        
+        <!-- How to Use Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-5xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">How to Use the Emoji Maker</h2>
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3">
+                        <span class="font-bold">1</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-800">Choose a Base Shape</h3>
+                        <p class="text-gray-600">Select the base shape for your emoji from the available options.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3">
+                        <span class="font-bold">2</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-800">Pick a Color</h3>
+                        <p class="text-gray-600">Use the color picker to select the perfect color for your emoji.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3">
+                        <span class="font-bold">3</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-800">Add Features</h3>
+                        <p class="text-gray-600">Select eyes, mouth, and accessories to customize your emoji's expression and style.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3">
+                        <span class="font-bold">4</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-800">Download or Share</h3>
+                        <p class="text-gray-600">Once you're happy with your creation, download it as an image or share it directly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-5xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="border-b border-gray-200 pb-4">
+                    <button class="flex justify-between items-center w-full text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                        <h3 class="text-lg font-medium text-gray-800">What file format will my emoji be downloaded as?</h3>
+                        <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="mt-2 hidden">
+                        <p class="text-gray-600">Static emojis will be downloaded as PNG images with a transparent background. If you've selected an animation effect (Pulse, Bounce, Shake, or Spin), your emoji will be downloaded as an animated GIF that preserves the animation.</p>
+                    </div>
+                </div>
+                <div class="border-b border-gray-200 pb-4">
+                    <button class="flex justify-between items-center w-full text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                        <h3 class="text-lg font-medium text-gray-800">Can I use these emojis commercially?</h3>
+                        <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="mt-2 hidden">
+                        <p class="text-gray-600">Yes, all emojis created with our tool are free for personal and commercial use. No attribution is required.</p>
+                    </div>
+                </div>
+                <div class="border-b border-gray-200 pb-4">
+                    <button class="flex justify-between items-center w-full text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                        <h3 class="text-lg font-medium text-gray-800">Can I save my emoji designs for later?</h3>
+                        <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="mt-2 hidden">
+                        <p class="text-gray-600">Currently, the tool doesn't support saving designs to your account. However, you can download your creations and keep them on your device.</p>
+                    </div>
+                </div>
+                <div class="border-b border-gray-200 pb-4">
+                    <button class="flex justify-between items-center w-full text-left focus:outline-none" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                        <h3 class="text-lg font-medium text-gray-800">How can I share my emoji with others?</h3>
+                        <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="mt-2 hidden">
+                        <p class="text-gray-600">You can use the Share button to directly share your creation to social media platforms or copy a link to your design to share with friends.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-2xl font-bold text-white flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-400 mt-2">Your All-in-One Tool Platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="../about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-300 hover:text-white transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-300 hover:text-white transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>© <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+                <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

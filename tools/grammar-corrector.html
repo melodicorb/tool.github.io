@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online grammar checker tool to correct spelling, punctuation, and grammar errors in your text. Improve your writing with instant grammar corrections.">
+    <meta name="keywords" content="grammar checker, grammar corrector, spelling checker, punctuation checker, grammar tool, writing improvement, text correction">
+    <title>Grammar Corrector - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Grammar Corrector JS -->
+    <script src="../js/grammar-corrector.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Grammar Corrector - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/grammar-corrector.html",
+      "description": "Free online grammar checker tool to correct spelling, punctuation, and grammar errors in your text. Improve your writing with instant grammar corrections.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Animation Canvas -->
+    <canvas id="animation-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span>MultiTool Hub</span>
+            </a>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="../index.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Home</a></li>
+                    <li><a href="../about.html" class="text-gray-600 hover:text-indigo-600 transition-colors">About</a></li>
+                    <li><a href="../contact.html" class="text-gray-600 hover:text-indigo-600 transition-colors">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="w-24 h-24 mx-auto mb-4 relative">
+                <!-- 3D Icon Container -->
+                <div id="grammar-icon-container" class="w-full h-full"></div>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Grammar Corrector</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Instantly check and correct grammar, spelling, and punctuation errors in your text. Improve your writing with detailed explanations and suggestions.</p>
+        </div>
+
+        <!-- Grammar Corrector Tool -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <!-- Text Input Area -->
+            <div class="mb-6">
+                <label for="grammar-input" class="block text-sm font-medium text-gray-700 mb-1">Enter your text</label>
+                <textarea id="grammar-input" rows="8" placeholder="Type or paste your text here to check for grammar, spelling, and punctuation errors..." 
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                <button id="check-grammar" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-colors flex-grow flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                    Check Grammar
+                </button>
+                <button id="clear-text" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    Clear Text
+                </button>
+                <button id="copy-corrected" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors flex items-center justify-center" disabled>
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+                    </svg>
+                    Copy Corrected Text
+                </button>
+            </div>
+
+            <!-- Results Area -->
+            <div id="results-area" class="hidden">
+                <h3 class="text-lg font-medium text-gray-800 mb-3">Corrections</h3>
+                <div id="corrections-container" class="border border-gray-200 rounded-md p-4 mb-6 bg-gray-50">
+                    <!-- Corrections will be displayed here -->
+                    <p class="text-gray-500 text-center">No corrections yet. Click "Check Grammar" to analyze your text.</p>
+                </div>
+
+                <h3 class="text-lg font-medium text-gray-800 mb-3">Corrected Text</h3>
+                <div id="corrected-text" class="border border-gray-200 rounded-md p-4 bg-white">
+                    <!-- Corrected text will be displayed here -->
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loading-indicator" class="hidden text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600"></div>
+                <p class="mt-2 text-gray-600">Analyzing your text...</p>
+            </div>
+        </div>
+
+        <!-- Tool Guide -->
+        <div class="bg-white rounded-xl shadow-lg p-6 max-w-4xl mx-auto">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">How to Use the Grammar Corrector</h2>
+            <ol class="list-decimal pl-5 space-y-2 mb-6">
+                <li>Type or paste your text in the input area above.</li>
+                <li>Click the "Check Grammar" button to analyze your text.</li>
+                <li>Review the highlighted errors and suggested corrections.</li>
+                <li>Click on a suggestion to apply it to your text.</li>
+                <li>Use the "Copy Corrected Text" button to copy the improved version.</li>
+            </ol>
+
+            <h3 class="text-lg font-medium text-gray-800 mb-2">Features</h3>
+            <ul class="list-disc pl-5 space-y-1 mb-6">
+                <li>Spelling error detection and correction</li>
+                <li>Grammar mistake identification</li>
+                <li>Punctuation error correction</li>
+                <li>Style improvement suggestions</li>
+                <li>Detailed explanations for each correction</li>
+            </ul>
+
+            <h3 class="text-lg font-medium text-gray-800 mb-2">FAQ</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-medium text-gray-800">Is my text stored or shared?</h4>
+                    <p class="text-gray-600">No, your text is processed locally in your browser and is never stored on our servers or shared with third parties.</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800">What languages are supported?</h4>
+                    <p class="text-gray-600">Currently, our grammar checker supports English text only. We plan to add support for more languages in the future.</p>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800">Are there any text length limitations?</h4>
+                    <p class="text-gray-600">The tool works best with texts up to 5,000 characters. Longer texts may be processed in chunks for optimal performance.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Copy Notification -->
+    <div id="copy-notification" class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-md shadow-lg transform translate-y-20 transition-transform duration-300">
+        Text copied to clipboard!
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-xl font-bold">MultiTool Hub</h2>
+                    <p class="text-gray-400">Free online tools for everyday tasks</p>
+                </div>
+                <div>
+                    <ul class="flex space-x-4">
+                        <li><a href="../index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="../about.html" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="../privacy.html" class="text-gray-400 hover:text-white transition-colors">Privacy</a></li>
+                        <li><a href="../contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>&copy; <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+                <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Share files easily with our secure file sharing tool. Upload, generate links, and manage your shared files with this free online utility.">
+    <meta name="keywords" content="file sharing, file upload, secure file sharing, share files online, file transfer, file sharing tool, free file sharing">
+    <title>File Sharing - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- File Sharing JS -->
+    <script src="../js/file-sharing.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "File Sharing - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/file-sharing.html",
+      "description": "Share files easily with our secure file sharing tool. Upload, generate links, and manage your shared files with this free online utility.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white px-4 py-3 shadow-inner">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon bg-purple-100 text-purple-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">File Sharing</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Upload, share, and manage your files securely with our easy-to-use file sharing tool.</p>
+        </div>
+
+        <!-- File Upload Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Upload Files</h2>
+                
+                <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6 hover:border-purple-500 transition cursor-pointer">
+                    <svg class="w-12 h-12 mx-auto text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <p class="text-gray-600 mb-2">Drag and drop files here or click to browse</p>
+                    <p class="text-gray-500 text-sm">Maximum file size: 100MB</p>
+                    <input type="file" id="file-input" class="hidden" multiple>
+                </div>
+                
+                <div id="upload-progress" class="hidden mb-6">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-gray-700">Uploading...</span>
+                        <span id="progress-percentage" class="text-gray-700">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="progress-bar" class="bg-purple-600 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <button id="upload-button" class="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Upload Files
+                </button>
+            </div>
+        </div>
+
+        <!-- Shared Files Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Your Shared Files</h2>
+                
+                <div id="file-list" class="divide-y divide-gray-200">
+                    <p id="no-files-message" class="text-gray-500 text-center italic py-4">You haven't shared any files yet.</p>
+                    <!-- File items will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- File Link Section -->
+        <div id="file-link-section" class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10 hidden">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Share Your File</h2>
+                
+                <div class="mb-6">
+                    <label for="share-link" class="block text-gray-700 font-medium mb-2">Share Link</label>
+                    <div class="flex">
+                        <input type="text" id="share-link" class="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-purple-500" readonly>
+                        <button id="copy-link" class="bg-purple-600 text-white px-4 py-2 rounded-r-md hover:bg-purple-700 transition focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label for="expiry-time" class="block text-gray-700 font-medium mb-2">Link Expiry</label>
+                    <select id="expiry-time" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <option value="1">1 hour</option>
+                        <option value="24" selected>24 hours</option>
+                        <option value="72">3 days</option>
+                        <option value="168">7 days</option>
+                        <option value="720">30 days</option>
+                    </select>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <button id="update-expiry" class="flex-1 bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                        Update Expiry
+                    </button>
+                    <button id="delete-file" class="flex-1 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                        Delete File
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Guide Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">How to Use the File Sharing Tool</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-800">1. Upload Your Files</h3>
+                        <p class="text-gray-600">Drag and drop files into the upload area or click to browse and select files from your device.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">2. Share Your Files</h3>
+                        <p class="text-gray-600">After uploading, you'll receive a unique link that you can copy and share with others.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">3. Manage Your Shared Files</h3>
+                        <p class="text-gray-600">Set expiry times for your links, view download statistics, or delete files when you no longer need to share them.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-10">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Frequently Asked Questions</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-medium text-gray-800">Is my data secure?</h3>
+                        <p class="text-gray-600">Yes, all files are encrypted during transfer and storage. We use secure HTTPS connections to protect your data.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">How long are my files stored?</h3>
+                        <p class="text-gray-600">Files are automatically deleted after the expiry time you set (default is 24 hours). You can also manually delete files at any time.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">What types of files can I share?</h3>
+                        <p class="text-gray-600">You can share most common file types including documents, images, videos, and archives. However, executable files (.exe) are not permitted for security reasons.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-gray-800">Is there a file size limit?</h3>
+                        <p class="text-gray-600">Yes, the maximum file size is 100MB per file. For larger files, consider compressing them or using a file splitting tool.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-2xl font-bold flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-400 mt-2">Your All-in-One Tool Platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="../about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-300 hover:text-white transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-300 hover:text-white transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>© <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- AdSense Placeholder -->
+    <div class="fixed bottom-0 left-0 w-full bg-white p-2 text-center text-sm text-gray-500 border-t border-gray-200">
+        Advertisement Placeholder - Optimized for Google AdSense
+    </div>
+</body>
+</html>

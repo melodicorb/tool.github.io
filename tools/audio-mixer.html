@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mix and edit multiple audio tracks with this free online audio mixer. Adjust volume, pan, add effects, and create your own custom mixes.">
+    <meta name="keywords" content="audio mixer, sound mixer, music mixer, audio editor, track mixer, online audio tool, sound editing">
+    <title>Audio Mixer - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Web Audio API Visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.3/wavesurfer.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Audio Mixer JS -->
+    <script src="../js/audio-mixer.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Audio Mixer - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/audio-mixer.html",
+      "description": "Mix and edit multiple audio tracks with this free online audio mixer. Adjust volume, pan, add effects, and create your own custom mixes.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white py-2 px-4 hidden">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Audio Mixer</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Mix and edit multiple audio tracks with our powerful online audio mixer.</p>
+        </div>
+
+        <!-- Ad Container Top -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+
+        <!-- Audio Mixer Container -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <!-- Track Controls -->
+            <div class="flex flex-wrap gap-4 mb-6 p-4 bg-gray-100 rounded-md">
+                <button id="btn-add-track" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition shadow">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Add Track
+                </button>
+                <button id="btn-play-all" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition shadow">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Play All
+                </button>
+                <button id="btn-stop-all" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition shadow">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10h6v6H9z"></path>
+                    </svg>
+                    Stop All
+                </button>
+                <button id="btn-export-mix" class="px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700 transition shadow">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Export Mix
+                </button>
+            </div>
+            
+            <!-- Mixer Board -->
+            <div id="mixer-board" class="space-y-4">
+                <!-- Tracks will be added here dynamically -->
+                <div class="text-center py-8 text-gray-500" id="no-tracks-message">
+                    <p>Add audio tracks to begin mixing</p>
+                </div>
+            </div>
+            
+            <!-- Master Output -->
+            <div id="master-output" class="mt-8 p-4 border border-gray-300 rounded-md bg-gray-50 hidden">
+                <h3 class="text-lg font-semibold mb-2">Master Output</h3>
+                <div id="master-waveform" class="h-24 bg-white rounded border border-gray-200 mb-3"></div>
+                <div class="flex items-center space-x-4">
+                    <label class="w-20 text-sm">Volume:</label>
+                    <input type="range" id="master-volume" min="0" max="100" value="80" class="flex-grow">
+                    <span id="master-volume-display" class="w-12 text-right text-sm">80%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Description -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">About Audio Mixer</h2>
+            <p class="mb-4">Our Audio Mixer is a powerful web-based tool that allows you to mix multiple audio tracks directly in your browser. Whether you're creating a podcast, mixing music tracks, or preparing audio for a video project, this tool provides essential mixing capabilities without the need for complex software.</p>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Features</h3>
+            <ul class="list-disc pl-6 mb-4 space-y-2">
+                <li>Mix multiple audio tracks simultaneously</li>
+                <li>Adjust volume and pan settings for each track</li>
+                <li>Visualize audio waveforms for precise editing</li>
+                <li>Solo and mute individual tracks</li>
+                <li>Apply basic effects like reverb and EQ</li>
+                <li>Export your final mix as an audio file</li>
+                <li>Works entirely in your browser - no software installation required</li>
+            </ul>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">How to Use</h3>
+            <ol class="list-decimal pl-6 mb-4 space-y-2">
+                <li>Click "Add Track" to upload audio files from your device</li>
+                <li>Adjust volume and pan settings for each track using the sliders</li>
+                <li>Use the solo and mute buttons to isolate or silence specific tracks</li>
+                <li>Apply effects as needed to enhance your mix</li>
+                <li>Use the master volume control to adjust the overall output level</li>
+                <li>Click "Play All" to preview your mix</li>
+                <li>When satisfied, click "Export Mix" to download the final audio file</li>
+            </ol>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Frequently Asked Questions</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold">What audio file formats are supported?</h4>
+                    <p>The Audio Mixer supports common audio formats including MP3, WAV, OGG, and AAC files.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Is there a limit to how many tracks I can mix?</h4>
+                    <p>For optimal performance, we recommend mixing up to 8 tracks simultaneously. Adding more tracks may affect performance depending on your device.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Can I save my project and continue later?</h4>
+                    <p>Currently, the Audio Mixer doesn't have a project save feature. We recommend completing your mix in one session and exporting the result.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">What format is the exported mix?</h4>
+                    <p>Your final mix will be exported as a high-quality WAV file, which you can later convert to other formats if needed.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Does this tool work on mobile devices?</h4>
+                    <p>Yes, the Audio Mixer is designed to work on both desktop and mobile devices, though a larger screen provides a better mixing experience.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Container Bottom -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-2xl font-bold text-white flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-400 mt-2">Your All-in-One Tool Platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="../about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-300 hover:text-white transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-300 hover:text-white transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>&copy; <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

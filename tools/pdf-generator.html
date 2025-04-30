@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert HTML or text content to PDF with customizable options for page size, orientation, margins, and more.">
+    <meta name="keywords" content="pdf generator, html to pdf, text to pdf, create pdf online, pdf converter, free pdf creator">
+    <title>PDF Generator - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- jsPDF library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- html2canvas for converting HTML to canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- PDF Generator JS -->
+    <script src="../js/pdf-generator.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PDF Generator - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/pdf-generator.html",
+      "description": "Convert HTML or text content to PDF with customizable options for page size, orientation, margins, and more.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white py-2 px-4 hidden">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">PDF Generator</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Convert HTML or text content to PDF with customizable options.</p>
+        </div>
+
+        <!-- Ad Container Top -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+
+        <!-- PDF Generator Container -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <!-- Tabs -->
+            <div class="flex border-b mb-6">
+                <button id="tab-text" class="px-4 py-2 border-b-2 border-indigo-600 text-indigo-600 font-medium">Text to PDF</button>
+                <button id="tab-html" class="px-4 py-2 border-b-2 border-transparent hover:text-indigo-600 transition">HTML to PDF</button>
+            </div>
+
+            <!-- Text to PDF Panel -->
+            <div id="panel-text" class="mb-6">
+                <div class="mb-4">
+                    <label for="text-content" class="block text-gray-700 font-medium mb-2">Enter your text:</label>
+                    <textarea id="text-content" class="w-full h-64 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y font-mono" placeholder="Type or paste your text here..."></textarea>
+                </div>
+            </div>
+
+            <!-- HTML to PDF Panel (Initially Hidden) -->
+            <div id="panel-html" class="mb-6 hidden">
+                <div class="mb-4">
+                    <label for="html-content" class="block text-gray-700 font-medium mb-2">Enter your HTML:</label>
+                    <textarea id="html-content" class="w-full h-64 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y font-mono" placeholder="Type or paste your HTML here..."></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Preview:</label>
+                    <div id="html-preview" class="w-full min-h-64 p-4 border border-gray-300 rounded-md bg-gray-50"></div>
+                    <button id="btn-preview" class="mt-2 px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 transition">
+                        <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        Preview HTML
+                    </button>
+                </div>
+            </div>
+
+            <!-- PDF Options -->
+            <div class="mb-6 bg-gray-50 p-4 rounded-md">
+                <h3 class="text-lg font-semibold mb-3">PDF Options</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="page-size" class="block text-gray-700 font-medium mb-1">Page Size:</label>
+                        <select id="page-size" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="a4">A4</option>
+                            <option value="letter">Letter</option>
+                            <option value="legal">Legal</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="orientation" class="block text-gray-700 font-medium mb-1">Orientation:</label>
+                        <select id="orientation" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="pdf-title" class="block text-gray-700 font-medium mb-1">Document Title:</label>
+                        <input type="text" id="pdf-title" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="My Document">
+                    </div>
+                    <div>
+                        <label for="font-size" class="block text-gray-700 font-medium mb-1">Font Size (Text mode):</label>
+                        <select id="font-size" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="10">10pt</option>
+                            <option value="12" selected>12pt</option>
+                            <option value="14">14pt</option>
+                            <option value="16">16pt</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generate Button -->
+            <div class="text-center">
+                <button id="btn-generate" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition shadow-md">
+                    <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Generate PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Tool Description -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">About PDF Generator</h2>
+            <p class="mb-4">Our PDF Generator tool allows you to easily convert text or HTML content into professional-looking PDF documents. Whether you need to create reports, save articles for offline reading, or generate documentation, this tool provides a simple way to create PDFs with customizable options.</p>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Features</h3>
+            <ul class="list-disc pl-6 mb-4 space-y-2">
+                <li>Convert plain text to PDF with formatting options</li>
+                <li>Convert HTML content to PDF with layout preservation</li>
+                <li>Customize page size (A4, Letter, Legal)</li>
+                <li>Choose between portrait and landscape orientation</li>
+                <li>Set document title and metadata</li>
+                <li>Adjust font size for text-based PDFs</li>
+                <li>Preview HTML content before generating PDF</li>
+                <li>Generate PDFs directly in your browser - no server uploads required</li>
+            </ul>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">How to Use</h3>
+            <ol class="list-decimal pl-6 mb-4 space-y-2">
+                <li>Choose between Text to PDF or HTML to PDF mode</li>
+                <li>Enter or paste your content in the appropriate field</li>
+                <li>For HTML mode, use the Preview button to check how your content will appear</li>
+                <li>Configure PDF options (page size, orientation, title, font size)</li>
+                <li>Click the Generate PDF button to create and download your PDF</li>
+            </ol>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Frequently Asked Questions</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold">Is my content secure?</h4>
+                    <p>Yes, all PDF generation happens directly in your browser. Your content is never sent to our servers.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">What HTML elements are supported?</h4>
+                    <p>Most common HTML elements are supported, including headings, paragraphs, lists, tables, and images. Complex layouts and CSS may have varying results.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Can I include images in my PDF?</h4>
+                    <p>Yes, when using HTML mode, you can include images using standard HTML image tags. Note that very large or numerous images may affect performance.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Is there a size limit?</h4>
+                    <p>The tool is optimized for documents of reasonable size. Very large documents (hundreds of pages) may experience performance issues as processing happens in your browser.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Can I password-protect my PDF?</h4>
+                    <p>Currently, this feature is not supported. The generated PDFs will not have password protection or encryption.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Container Bottom -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 border-t">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-xl font-bold text-indigo-600 flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-600 mt-2">Your all-in-one tool platform</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-600 hover:text-indigo-600 transition">Home</a>
+                    <a href="../about.html" class="text-gray-600 hover:text-indigo-600 transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-indigo-600 transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-indigo-600 transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-600">
+                <p>© <span id="current-year"></span> MultiTool Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // Set current year in footer
+            const currentYearElement = document.getElementById('current-year');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear();
+            }
+        });
+    </script>
+</body>
+</html>

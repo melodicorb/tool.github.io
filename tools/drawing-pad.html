@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online drawing pad with various brush options, colors, and the ability to save your artwork as an image.">
+    <meta name="keywords" content="drawing pad, online drawing, sketch tool, digital art, free drawing tool, canvas drawing">
+    <title>Drawing Pad - MultiTool Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Custom Animation JS -->
+    <script src="../js/animation.js" defer></script>
+    <!-- Drawing Pad JS -->
+    <script src="../js/drawing-pad.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Drawing Pad - MultiTool Hub",
+      "url": "https://multitoolhub.com/tools/drawing-pad.html",
+      "description": "Free online drawing pad with various brush options, colors, and the ability to save your artwork as an image.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body class="font-sans">
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <!-- Header -->
+    <header class="bg-yellow-50 bg-opacity-90 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-bold text-indigo-600 flex items-center">
+                <span class="mr-2">🛠️</span> MultiTool Hub
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="../index.html" class="text-gray-800 hover:text-indigo-600 transition">Home</a>
+                <a href="../about.html" class="text-gray-800 hover:text-indigo-600 transition">About Us</a>
+                <a href="../contact.html" class="text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+                <a href="../privacy.html" class="text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-white py-2 px-4 hidden">
+            <a href="../index.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Home</a>
+            <a href="../about.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">About Us</a>
+            <a href="../contact.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Contact Us</a>
+            <a href="../privacy.html" class="block py-2 text-gray-800 hover:text-indigo-600 transition">Privacy Policy</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tool Header -->
+        <div class="text-center mb-10">
+            <div class="tool-icon rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Drawing Pad</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Create digital artwork with our simple online drawing tool.</p>
+        </div>
+
+        <!-- Ad Container Top -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+
+        <!-- Drawing Pad Container -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
+            <!-- Toolbar -->
+            <div class="flex flex-wrap gap-2 mb-4 p-2 bg-gray-100 rounded-md">
+                <!-- Brush Size -->
+                <div class="flex items-center">
+                    <label for="brush-size" class="mr-2 text-sm">Brush Size:</label>
+                    <input type="range" id="brush-size" min="1" max="50" value="5" class="w-24">
+                    <span id="size-display" class="ml-2 text-sm">5px</span>
+                </div>
+                
+                <!-- Color Picker -->
+                <div class="flex items-center ml-4">
+                    <label for="color-picker" class="mr-2 text-sm">Color:</label>
+                    <input type="color" id="color-picker" value="#000000" class="w-8 h-8 p-0 border-0">
+                </div>
+                
+                <div class="border-r border-gray-300 h-6 mx-2"></div>
+                
+                <!-- Tools -->
+                <button id="btn-brush" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                    </svg>
+                    Brush
+                </button>
+                <button id="btn-eraser" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    Eraser
+                </button>
+                
+                <div class="border-r border-gray-300 h-6 mx-2"></div>
+                
+                <!-- Actions -->
+                <button id="btn-clear" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    Clear
+                </button>
+                <button id="btn-download" class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Download
+                </button>
+            </div>
+            
+            <!-- Canvas Area -->
+            <div class="relative border border-gray-300 rounded-md overflow-hidden">
+                <canvas id="drawing-canvas" class="w-full bg-white" width="800" height="600"></canvas>
+            </div>
+        </div>
+
+        <!-- Tool Description -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">About Drawing Pad</h2>
+            <p class="mb-4">Our Drawing Pad is a simple yet powerful tool that allows you to create digital artwork directly in your browser. Whether you're sketching ideas, doodling for fun, or creating more complex illustrations, this tool provides an easy-to-use canvas with essential drawing features.</p>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Features</h3>
+            <ul class="list-disc pl-6 mb-4 space-y-2">
+                <li>Adjustable brush size for detailed or broad strokes</li>
+                <li>Full color palette selection</li>
+                <li>Eraser tool to correct mistakes</li>
+                <li>Clear canvas option to start fresh</li>
+                <li>Download your artwork as a PNG image</li>
+                <li>Responsive design works on desktop and mobile devices</li>
+                <li>Touch-enabled for drawing on tablets and smartphones</li>
+            </ul>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">How to Use</h3>
+            <ol class="list-decimal pl-6 mb-4 space-y-2">
+                <li>Select your brush size using the slider</li>
+                <li>Choose a color from the color picker</li>
+                <li>Draw on the canvas by clicking/touching and dragging</li>
+                <li>Use the eraser tool to remove unwanted parts of your drawing</li>
+                <li>Clear the canvas if you want to start over</li>
+                <li>When finished, download your artwork as a PNG image</li>
+            </ol>
+            
+            <h3 class="text-xl font-semibold mb-2 mt-6">Frequently Asked Questions</h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold">Can I save my drawing and continue later?</h4>
+                    <p>Currently, the drawing pad doesn't have an auto-save feature. We recommend downloading your artwork if you need to take a break and want to save your progress.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">What file format is used when I download my drawing?</h4>
+                    <p>Your drawing will be downloaded as a PNG (Portable Network Graphics) file, which maintains good quality and transparency.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Can I use this on my tablet or smartphone?</h4>
+                    <p>Yes! The drawing pad is fully touch-enabled and works on mobile devices. It's optimized for both mouse and touch inputs.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Is there an undo feature?</h4>
+                    <p>Currently, we don't have an undo feature, but we're working on adding this functionality in a future update. For now, you can use the eraser tool to correct mistakes.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Can I import images to draw over?</h4>
+                    <p>The current version doesn't support image importing, but we're considering adding this feature in future updates.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Container Bottom -->
+        <div class="ad-container no-print mb-8">
+            <!-- Ad code would go here -->
+            <div class="bg-gray-200 p-4 text-center text-gray-500">Advertisement Space</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="../index.html" class="text-xl font-bold flex items-center">
+                        <span class="mr-2">🛠️</span> MultiTool Hub
+                    </a>
+                    <p class="text-gray-400 mt-2">Your one-stop destination for useful online tools.</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="../index.html" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="../about.html" class="text-gray-300 hover:text-white transition">About Us</a>
+                    <a href="../contact.html" class="text-gray-300 hover:text-white transition">Contact Us</a>
+                    <a href="../privacy.html" class="text-gray-300 hover:text-white transition">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>© <span id="current-year">2023</span> MultiTool Hub. All rights reserved.</p>
+                <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
